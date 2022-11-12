@@ -60,9 +60,9 @@ void vec2test()
             V2f vf { 5.01323f, 561.0123f };
             V2d vd { vf };
 
-            assert_equals(vf, vd);
+            assert_true(vf == vd);
             vd = { -23.0, -1323 };
-//            assert_true(vf == vd);
+            assert_true(vf != vd);
         }
     );
 
