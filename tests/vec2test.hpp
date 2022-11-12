@@ -2,9 +2,11 @@
 #pragma once
 
 #include "vec2.hpp"
+#include <trigonometry.hpp>
 #include <fbtt.hpp>
 #include <iostream>
 #include <limits>
+#include <ostream_interop.hpp>
 
 namespace fbmath {
 void vec2test()
@@ -75,6 +77,17 @@ void vec2test()
         }
     );
 
+    vt.add_test("Absolute angle",
+        []() {
+            constexpr double margin = 0.01f;
+            V2d v { 5.38, 3.38 };
+            assert_approx(degrees(v.angle()), 32.14, "Bruh", margin);
+
+            V2d u { 19.51, -6.4 };
+            assert_approx(degrees(u.angle()), 341.84, "Bruh", margin);
+        }
+    );
+
     vt.add_test("Angle between",
         []() {
             /* using geogebra */
@@ -85,6 +98,19 @@ void vec2test()
             v = { -2.8, 2.66 };
             u = { -1.78, -4.88 };
             assert_approx(angleBetween<double>(v, u), 1.9808);
+        }
+    );
+
+    vt.add_test("Setting angles",
+        []() {
+            V2d v { 1.0, 1.0 };
+            assert_approx(degrees(v.angle()), 45.0);
+
+            v.setAngle(radians(65.0));
+            assert_approx(degrees(v.angle()), 65.0);
+
+            v.setAngle(radians(140.0));
+            assert_approx(degrees(v.angle()), 140.0);
         }
     );
 

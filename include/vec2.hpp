@@ -1,12 +1,11 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
 #include <number.hpp>
+#include <contants.hpp>
+
 #include <cstdint>
 #include <concepts>
 #include <cmath>
-
-/* TODO remove */
-#include <vector>
 
 namespace fbmath {
 template <Number N>
@@ -23,7 +22,7 @@ struct Vec2 {
           y { static_cast<N>(_y) } { };
 
     template <NonNarrowingConvertibleTo<N> O>
-    constexpr Vec2(const Vec2<O>& other)
+    constexpr Vec2(const Vec2<O>& other) noexcept
         : Vec2(static_cast<N>(other.x), static_cast<N>(other.y))
     { };
 
@@ -42,7 +41,7 @@ struct Vec2 {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
     };
 
-    template <Number SizeType = float>
+    template <Number SizeType = double>
     constexpr SizeType size() const noexcept
     {
         return std::sqrt(static_cast<SizeType>(x * x + y * y));
@@ -54,16 +53,56 @@ struct Vec2 {
     }
 
 
-    template <std::floating_point AngleType = float>
+    template <std::floating_point AngleType = double>
     constexpr AngleType angle() const noexcept
     {
         /* a = cos(x / sz) = cos(x^2 / sz^2) */
-        AngleType x2  = static_cast<AngleType>(x * x);
-        AngleType sz2 = static_cast<AngleType>(sizeSquared());
-        return std::acos(x2 / sz2);
+        AngleType angle = std::acos(static_cast<AngleType>(x) / size<AngleType>());
+
+        bool pX = x >= N(); /* x positive? */
+        bool pY = y >= N(); /* y positive? */
+
+        if (pX && pY)   return angle; /* 1. quadrant */
+        if (!pX && pY)  return pi<AngleType> - angle; /* 2/3. quadrant */
+        if (!pX && !pY) return pi<AngleType> + angle;
+        if (pX && !pY)  return twoPi<AngleType> - angle;
     }
 
-    template <Number SizeType = float, std::floating_point AngleType = float>
+    template <std::floating_point AngleType = double>
+    constexpr void setAngle(AngleType angle) noexcept
+    {
+        using A = AngleType;
+        A ca = std::acos(angle);
+        A sa = std::asin(angle);
+
+        bool positiveX = angle <= quarterPi<A> || angle >= pi<A> * A(0.75);
+        bool positiveY = angle <= pi<A>;
+
+        int xSign = positiveX * 2 - 1;
+        int ySign = positiveY * 2 - 1;
+
+        x = static_cast<N>(ca * xSign);
+        y = static_cast<N>(sa * ySign);
+    }
+
+    template <std::floating_point SizeType = double>
+    constexpr void setSize(SizeType sz) noexcept
+    {
+        SizeType xnum = static_cast<SizeType>(x * sz);
+        SizeType ynum = static_cast<SizeType>(y * sz);
+        SizeType oldsz = size<SizeType>();
+
+        x = static_cast<N>(xnum / oldsz);
+        y = static_cast<N>(ynum / oldsz);
+    }
+
+    constexpr void normalize() noexcept
+    {
+        x = static_cast<N>(x / size());
+        y = static_cast<N>(y / size());
+    }
+
+    template <Number SizeType = double, std::floating_point AngleType = double>
     static constexpr Vec2 fromAngle(AngleType angle, SizeType sz = 1.0f) noexcept
     {
         N x = static_cast<N>(std::cos(angle) * sz);
@@ -71,34 +110,34 @@ struct Vec2 {
         return { x, y };
     }
 
-    constexpr friend bool operator==(const Vec2&, const Vec2&) = default;
-    constexpr friend bool operator!=(const Vec2&, const Vec2&) = default;
+    constexpr friend bool operator==(const Vec2&, const Vec2&) noexcept = default;
+    constexpr friend bool operator!=(const Vec2&, const Vec2&) noexcept = default;
 };
 
 template <Number N, Number O>
-constexpr bool operator==(const Vec2<N>& v, const Vec2<O>& u)
+constexpr bool operator==(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
     using T = MorePreciseType<N, O>;
     return static_cast<Vec2<T>>(v) == static_cast<Vec2<T>>(u);
 }
 
 template <Number N, Number O>
-constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u)
+constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
     using T = MorePreciseType<N, O>;
     return static_cast<Vec2<T>>(v) != static_cast<Vec2<T>>(u);
 }
 
 template <Number N>
-constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u)
+constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     return v.x * u.x + v.y * u.y;
 }
 
-template <std::floating_point AngleType = float, Number N>
+template <std::floating_point AngleType = double, Number N>
 /// \tparam AngleType type of resulting angle
 /// \return smallest angle between vectors v, u in radians
-constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u)
+constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     /* cos^-1((v · u)/(|v| * |u|)) */
 
