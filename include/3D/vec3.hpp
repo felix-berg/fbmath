@@ -1,6 +1,6 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include <number.hpp>
+#include "number.hpp"
 #include <cstdint>
 #include <concepts>
 #include <cmath>
@@ -38,9 +38,9 @@ struct Vec3 {
     }
 
     template <Number O>
-    /// \brief Force narrowing conversion from type N to O
+    /// \brief Force narrowing conversion from Type N to O
     /// \tparam O Type to force upon the resulting vector.
-    /// \return Copy of vector with given Number type.
+    /// \return Copy of vector with given Number Type.
     constexpr Vec3<O> convertTo() const noexcept
     {
         return Vec3<O>(static_cast<O>(x), static_cast<O>(y), static_cast<O>(z));
@@ -62,17 +62,17 @@ struct Vec3 {
 };
 
 template <Number N, Number O>
+    requires std::equality_comparable_with<N, O>
 constexpr bool operator==(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return static_cast<Vec3<T>>(v) == static_cast<Vec3<T>>(u);
+    return v.x == u.x && v.y == u.y;
 }
 
 template <Number N, Number O>
+    requires std::equality_comparable_with<N, O>
 constexpr bool operator!=(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return static_cast<Vec3<T>>(v) != static_cast<Vec3<T>>(u);
+    return v.x != u.x || v.y != u.y;
 }
 
 template <Number N>

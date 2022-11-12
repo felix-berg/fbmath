@@ -1,8 +1,8 @@
 // Created by felix on 11/12/22, 6:39 PM.
 #pragma once
 
-#include "vec2.hpp"
-#include <trigonometry.hpp>
+#include "2D/vec2.hpp"
+#include "trigonometry.hpp"
 #include <fbtt.hpp>
 #include <iostream>
 #include <limits>
@@ -12,7 +12,6 @@ namespace fbmath {
 void vec2test()
 {
     using namespace fbtt;
-    using namespace fbmath;
 
     /* Construction */
     MultiTest vt { "Test of vec2" };

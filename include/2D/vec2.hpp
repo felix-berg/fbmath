@@ -1,7 +1,7 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include <number.hpp>
-#include <contants.hpp>
+#include "number.hpp"
+#include "contants.hpp"
 
 #include <cstdint>
 #include <concepts>
@@ -33,9 +33,9 @@ struct Vec2 {
     }
 
     template <Number O>
-    /// \brief Force narrowing conversion from type N to O
+    /// \brief Force narrowing conversion from Type N to O
     /// \tparam O Type to force upon the resulting vector.
-    /// \return Copy of vector with given Number type.
+    /// \return Copy of vector with given Number Type.
     constexpr Vec2<O> convertTo() const noexcept
     {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
@@ -52,7 +52,6 @@ struct Vec2 {
         return x * x + y * y;
     }
 
-
     template <std::floating_point AngleType = double>
     constexpr AngleType angle() const noexcept
     {
@@ -62,10 +61,10 @@ struct Vec2 {
         bool pX = x >= N(); /* x positive? */
         bool pY = y >= N(); /* y positive? */
 
-        if (pX && pY)   return angle; /* 1. quadrant */
-        if (!pX && pY)  return pi<AngleType> - angle; /* 2/3. quadrant */
-        if (!pX && !pY) return pi<AngleType> + angle;
-        if (pX && !pY)  return twoPi<AngleType> - angle;
+             if (pX && pY)   return angle;                 /* 1st quadrant */
+        else if (!pX && pY)  return pi<AngleType> - angle; /* 2nd quadrant */
+        else if (!pX) return pi<AngleType> + angle;        /* 3rd quadrant */
+        else return twoPi<AngleType> - angle;              /* 4th quadrant */
     }
 
     template <std::floating_point AngleType = double>
@@ -115,17 +114,17 @@ struct Vec2 {
 };
 
 template <Number N, Number O>
+    requires std::equality_comparable_with<N, O>
 constexpr bool operator==(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return static_cast<Vec2<T>>(v) == static_cast<Vec2<T>>(u);
+    return v.x == u.x && v.y == u.y;
 }
 
 template <Number N, Number O>
+    requires std::equality_comparable_with<N, O>
 constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return static_cast<Vec2<T>>(v) != static_cast<Vec2<T>>(u);
+    return v.x != u.x || v.y != u.y;
 }
 
 template <Number N>
@@ -135,7 +134,7 @@ constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 }
 
 template <std::floating_point AngleType = double, Number N>
-/// \tparam AngleType type of resulting angle
+/// \tparam AngleType Type of resulting angle
 /// \return smallest angle between vectors v, u in radians
 constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
