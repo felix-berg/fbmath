@@ -53,7 +53,8 @@ struct Vec2 {
         return x * x + y * y;
     }
 
-    template <std::floating_point AngleType>
+
+    template <std::floating_point AngleType = float>
     constexpr AngleType angle() const noexcept
     {
         /* a = cos(x / sz) = cos(x^2 / sz^2) */
@@ -62,7 +63,7 @@ struct Vec2 {
         return std::acos(x2 / sz2);
     }
 
-    template <Number SizeType = float, std::floating_point AngleType>
+    template <Number SizeType = float, std::floating_point AngleType = float>
     static constexpr Vec2 fromAngle(AngleType angle, SizeType sz = 1.0f) noexcept
     {
         N x = static_cast<N>(std::cos(angle) * sz);
@@ -106,7 +107,7 @@ constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u)
     AngleType under = std::sqrt(static_cast<AngleType>(
         v.sizeSquared() * u.sizeSquared()));
 
-    return std::acos<AngleType>(over / under);
+    return std::acos(over / under);
 }
 
 using V2i   [[maybe_unused]] = Vec2<int>;
