@@ -25,7 +25,7 @@ struct Vec3 {
   { };
 
     template <NonNarrowingConvertibleTo<N> O>
-    constexpr Vec3(const Vec3<O>& other)
+    constexpr Vec3(const Vec3<O>& other) noexcept
         : x { static_cast<N>(other.x) },
           y { static_cast<N>(other.y) },
           z { static_cast<N>(other.z) }
@@ -46,7 +46,7 @@ struct Vec3 {
         return Vec3<O>(static_cast<O>(x), static_cast<O>(y), static_cast<O>(z));
     };
 
-    template <Number SizeType = float>
+    template <Number SizeType = double>
     constexpr SizeType size() const noexcept
     {
         return std::sqrt(static_cast<SizeType>(x * x + y * y + z * z));
@@ -62,21 +62,21 @@ struct Vec3 {
 };
 
 template <Number N, Number O>
-constexpr bool operator==(const Vec3<N>& v, const Vec3<O>& u)
+constexpr bool operator==(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {
     using T = MorePreciseType<N, O>;
     return static_cast<Vec3<T>>(v) == static_cast<Vec3<T>>(u);
 }
 
 template <Number N, Number O>
-constexpr bool operator!=(const Vec3<N>& v, const Vec3<O>& u)
+constexpr bool operator!=(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {
     using T = MorePreciseType<N, O>;
     return static_cast<Vec3<T>>(v) != static_cast<Vec3<T>>(u);
 }
 
 template <Number N>
-constexpr N dotProduct(const Vec3<N>& v, const Vec3<N>& u)
+constexpr N dotProduct(const Vec3<N>& v, const Vec3<N>& u) noexcept
 {
     return v.x * u.x + v.y * u.y + v.z * u.z;
 }
