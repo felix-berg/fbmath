@@ -1,7 +1,7 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include <number.hpp>
-#include <contants.hpp>
+#include <fbmath/number.hpp>
+#include <fbmath/contants.hpp>
 
 #include <cstdint>
 #include <concepts>

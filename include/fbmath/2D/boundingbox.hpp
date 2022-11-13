@@ -1,7 +1,7 @@
 // Created by felix on 11/12/22, 10:34 PM.
 #pragma once
 
-#include <vec2.hpp>
+#include <fbmath/2D/vec2.hpp>
 #include <cassert>
 #include <vector>
 

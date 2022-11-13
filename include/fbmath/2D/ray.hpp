@@ -1,8 +1,8 @@
 // Created by felix on 11/12/22, 11:35 PM.
 #pragma once
 
-#include <2D/vec2.hpp>
-#include <intersection.hpp>
+#include <fbmath/2D/vec2.hpp>
+#include <fbmath/intersection.hpp>
 #include <optional>
 
 namespace fbmath {

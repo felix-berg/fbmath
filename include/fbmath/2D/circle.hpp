@@ -1,6 +1,6 @@
 // Created by felix on 11/13/22, 2:11 PM.
 #pragma once
-#include <2D/ray.hpp>
+#include <fbmath/2D/ray.hpp>
 namespace fbmath {
 template <Number VecN, Number Radius = VecN>
 struct Circle {
