@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
 
 add_library(fbmath INTERFACE)
-set_target_properties(fbmath PROPERTIES PUBLIC_HEADER include/fbmath.hpp)
-target_include_directories(fbmath INTERFACE include)
+target_include_directories(fbmath
+        INTERFACE $<BUILD_INTERFACE:{CMAKE_CURRENT_SOURCE_DIR}/include>
+)
