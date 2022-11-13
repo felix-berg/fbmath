@@ -2,11 +2,11 @@
 #pragma once
 
 #include "2D/vec2.hpp"
-#include "trigonometry.hpp"
+#include "../include/fbmath/trigonometry.hpp"
 #include <fbtt.hpp>
 #include <iostream>
 #include <limits>
-#include <ostream_interop.hpp>
+#include "../include/fbmath/ostream_interop.hpp"
 
 namespace fbmath {
 void vec2Test()

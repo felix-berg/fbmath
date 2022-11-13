@@ -1,8 +1,8 @@
 // Created by felix on 11/12/22, 10:01 PM.
 #pragma once
 
-#include "number.hpp"
-#include "contants.hpp"
+#include <number.hpp>
+#include <contants.hpp>
 
 namespace fbmath {
 
