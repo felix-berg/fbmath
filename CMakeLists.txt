@@ -6,5 +6,5 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
 
 add_library(fbmath INTERFACE)
 target_include_directories(fbmath
-        INTERFACE $<BUILD_INTERFACE:{CMAKE_CURRENT_SOURCE_DIR}/include>
+        INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
