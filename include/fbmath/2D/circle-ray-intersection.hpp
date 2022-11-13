@@ -1,9 +1,9 @@
 // Created by felix on 11/13/22, 2:24 PM.
 #pragma once
 
-#include <2D/ray.hpp>
-#include <2D/circle.hpp>
-#include <ostream_interop.hpp>
+#include <fbmath/2D/ray.hpp>
+#include <fbmath/2D/circle.hpp>
+#include <fbmath/ostream_interop.hpp>
 
 #include <cassert>
 
