@@ -1,12 +1,14 @@
-#include <iostream>
+//#include <iostream>
 
-#include <vec2.hpp>
 #include "tests/vec2test.hpp"
+#include "tests/boundingboxtest.hpp"
+#include "tests/raytest.hpp"
 
-int main()
+using namespace fbmath;
+
+int main(int argc, char ** argv)
 {
-    using namespace fbmath;
     vec2test();
-
-    return 0;
+    boundingboxtest();
+    raytest();
 }

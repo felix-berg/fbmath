@@ -1,0 +1,3 @@
+[submodule "external/fbtt"]
+	path = external/fbtt
+	url = https://github.com/felix-berg/fbtt.git

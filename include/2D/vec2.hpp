@@ -37,7 +37,7 @@ struct Vec2 {
     /// \brief Force narrowing conversion from Type N to O
     /// \tparam O Type to force upon the resulting vector.
     /// \return Copy of vector with given Number Type.
-    constexpr Vec2<O> convertTo() const noexcept
+    constexpr Vec2<O> convertTo(auto&&...) const noexcept
     {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
     };
@@ -108,6 +108,12 @@ struct Vec2 {
         N x = static_cast<N>(std::cos(angle) * sz);
         N y = static_cast<N>(std::cos(angle) * sz);
         return { x, y };
+    }
+
+    template <Number O>
+    static constexpr Vec2 from(const Vec2<O>& v) noexcept {
+        /* syntax: https://stackoverflow.com/questions/3786360/confusing-template-error */
+        return v.template convertTo<N>();
     }
 
     constexpr friend bool operator==(const Vec2&, const Vec2&) noexcept = default;
