@@ -2,10 +2,10 @@
 #pragma once
 
 #include <ostream>
-#include "2D/vec2.hpp"
-#include "3D/vec3.hpp"
-#include "2D/boundingbox.hpp"
-#include "2D/circle.hpp"
+#include <2D/vec2.hpp>
+#include <3D/vec3.hpp>
+#include <2D/boundingbox.hpp>
+#include <2D/circle.hpp>
 
 namespace fbmath {
 
