@@ -33,13 +33,19 @@ namespace impl {
         else
             return O();
     }
+
+    template <Number N, Number ... Ns>
+    consteval auto getMorePrecisetype() noexcept
+    {
+        return getMorePreciseType<N, decltype(getMorePreciseType<Ns...>())>;
+    }
 }
 
-template <Number N, Number O>
-using MorePreciseType = decltype(impl::getMorePreciseType<N, O>());
+template <Number ... Ns>
+using MorePreciseType = decltype(impl::getMorePreciseType<Ns...>());
 
 template <typename N, typename C>
-concept MorePreciseThan = !std::same_as<N, C> && Number<N> && Number<C> && std::same_as<MorePreciseType<N, C>, N>;
+concept MorePreciseThan = Number<N> && Number<C> && std::same_as<MorePreciseType<N, C>, N>;
 
 template <typename N, typename O>
 concept NonNarrowingConvertibleTo = Number<N> && Number<O> && MorePreciseThan<O, N>;

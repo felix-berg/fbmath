@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <concepts>
 #include <cmath>
+#include <cassert>
 
 namespace fbmath {
 template <Number N>
@@ -48,9 +49,10 @@ struct Vec2 {
         return std::sqrt(static_cast<SizeType>(x * x + y * y));
     }
 
-    constexpr N sizeSquared() const noexcept
+    template <Number SizeType = N>
+    constexpr SizeType sizeSquared() const noexcept
     {
-        return x * x + y * y;
+        return static_cast<SizeType>(x * x + y * y);
     }
 
     template <std::floating_point AngleType = double>
@@ -199,6 +201,18 @@ template <Number N>
 constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     return v.x * u.x + v.y * u.y;
+}
+
+template <Number N, Number O>
+/// \brief Projection of v onto o
+/// \return projection vector from v onto o (in direction of o)
+inline constexpr Vec2<MorePreciseType<N, O>> projection(const Vec2<N>& v, const Vec2<O>& o)
+noexcept
+{
+    using T = MorePreciseType<N, O>;
+    T ssq = o.template sizeSquared<T>();
+    assert(ssq > T(0));
+    return (dotProduct<T>(v, o) / ssq) * o;
 }
 
 template <std::floating_point AngleType = double, Number N>

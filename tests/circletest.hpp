@@ -2,7 +2,7 @@
 #pragma once
 
 #include <2D/circle.hpp>
-#include <2D/unfinished_circle-ray-intersection.hpp>
+#include <2D/circle-ray-intersection.hpp>
 #include <fbtt.hpp>
 
 namespace fbmath {
@@ -27,15 +27,14 @@ void circleTest() {
         }
     );
 
-//    ct.add_test("Intersection with ray",
-//        []() {
-//            const Circle c { 5, 6, 3 };
-//            const Ray r { 3.0, 1.0, 1.0, 2.0 };
-//            const auto opt = intersection(r, c);
-//            assert_true(opt.has_value(), "Intersection not found");
-//            std::cout << "Intersections: " << opt->first / 2 << ", " << opt->second / 2 << '\n';
-//        }
-//    );
+    ct.add_test("Intersection with ray",
+        []() {
+            const Circle c { 5, 6, 3 };
+            const Ray r { 3.0, 1.0, 2.01, 10.05 };
+            const auto opt = intersection(r, c);
+            assert_true(opt.has_value(), "Intersection not found");
+        }
+    );
 
     ct.run();
     std::cout << ct;
