@@ -5,6 +5,7 @@
 #include "2D/vec2.hpp"
 #include "3D/vec3.hpp"
 #include "2D/boundingbox.hpp"
+#include "2D/circle.hpp"
 
 namespace fbmath {
 
@@ -20,7 +21,17 @@ std::ostream & operator <<(std::ostream& os, const Vec3<N>& v) noexcept {
 
 template <typename N>
 std::ostream & operator<<(std::ostream& os, const BoundingBox<N>& bb) noexcept {
-    return os << "[tl: " << bb.tl << ", br: " << bb.br << "]\n";
+    return os << "[tl: " << bb.tl << ", br: " << bb.br << "]";
+}
+
+template <typename N>
+std::ostream& operator<<(std::ostream& os, const Ray<N>& ray) noexcept {
+    return os << "[org: " << ray.org << ", dir: " << ray.dir << "]";
+}
+
+template <typename N, typename R>
+std::ostream& operator<<(std::ostream& os, const Circle<N, R>& c) noexcept {
+    return os << "[c: " << c.c << ", r: " << c.r << "]";
 }
 
 } // namespace fbmath

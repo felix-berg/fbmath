@@ -7,7 +7,8 @@ namespace fbmath {
 namespace impl {
 template <typename T, typename U>
 struct IntersectionTypeS {
-    static_assert(std::same_as<void, T>, "Intersection not yet implemented.");
+    static constexpr bool f = std::same_as<void, T>; /* always false */
+    static_assert(f, "Intersection not yet implemented.");
 };
 }
 
@@ -17,6 +18,7 @@ using IntersectionType = impl::IntersectionTypeS<T, U>::Type;
 template <typename T, typename U>
 constexpr IntersectionType<T, U> intersection(const T& t, const U& u) noexcept
 {
-    static_assert(std::same_as<void, T>, "Error: intersection not yet implemented.");
+    static constexpr bool f = std::same_as<void, T>; /* always false */
+    static_assert(f, "Intersection not yet implemented.");
 };
 }; // namespace

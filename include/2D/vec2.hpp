@@ -13,9 +13,9 @@ struct Vec2 {
     using Type = N;
     N x, y;
 
-    constexpr Vec2() noexcept = default;
     constexpr Vec2(const N _x, const N _y) noexcept
         : x { _x }, y { _y } { };
+    constexpr Vec2() noexcept : x {}, y{} { };
 
     template <NonNarrowingConvertibleTo<N> O>
     constexpr Vec2(const O _x, const O _y) noexcept
@@ -130,7 +130,9 @@ struct Vec2 {
 };
 
 template <Number N, Number O>
-inline constexpr Vec2<MorePreciseType<N, O>> operator+ (const Vec2<N>& v, const Vec2<O>& u) {
+inline constexpr Vec2<MorePreciseType<N, O>> operator+ (const Vec2<N>& v, const Vec2<O>& u)
+noexcept
+{
     using T = MorePreciseType<N, O>;
     return {
         T(v.x) + T(u.x),
@@ -139,7 +141,9 @@ inline constexpr Vec2<MorePreciseType<N, O>> operator+ (const Vec2<N>& v, const 
 }
 
 template <Number N, Number O>
-inline constexpr Vec2<MorePreciseType<N, O>>  operator- (const Vec2<N>& v, const Vec2<O>& u) {
+inline constexpr Vec2<MorePreciseType<N, O>>  operator- (const Vec2<N>& v, const Vec2<O>& u)
+noexcept
+{
     using T = MorePreciseType<N, O>;
     return {
         T(v.x) - T(u.x),
@@ -149,7 +153,8 @@ inline constexpr Vec2<MorePreciseType<N, O>>  operator- (const Vec2<N>& v, const
 
 template <Number N, Number FacType>
 inline constexpr Vec2<MorePreciseType<N, FacType>> operator* (const Vec2<N>& v, const FacType
-factor) {
+factor) noexcept
+{
     using T = MorePreciseType<N, FacType>;
     return {
         T(v.x) * T(factor),
@@ -159,13 +164,22 @@ factor) {
 
 template <Number N, Number FacType>
 inline constexpr Vec2<MorePreciseType<N, FacType>> operator/ (const Vec2<N>& v, const FacType
-factor) {
+factor) noexcept
+{
     using T = MorePreciseType<N, FacType>;
     return {
         T(v.x) / T(factor),
         T(v.y) / T(factor)
     };
 }
+
+template <Number N, Number FacType>
+inline constexpr auto operator*(const FacType factor, const Vec2<N>& v) noexcept
+{ return v * factor; };
+
+template <Number N, Number FacType>
+inline constexpr auto operator/(const FacType factor, const Vec2<N>& v) noexcept
+{ return v / factor; };
 
 template <Number N, Number O>
     requires std::equality_comparable_with<N, O>

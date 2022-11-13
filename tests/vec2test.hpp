@@ -9,7 +9,7 @@
 #include <ostream_interop.hpp>
 
 namespace fbmath {
-void vec2test()
+void vec2Test()
 {
     using namespace fbtt;
 

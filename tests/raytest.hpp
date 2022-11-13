@@ -6,7 +6,7 @@
 
 namespace fbmath {
 
-void raytest()
+void rayTest()
 {
     using namespace fbtt;
     MultiTest rt { "Test of ray" };

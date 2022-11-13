@@ -36,6 +36,12 @@ namespace impl {
 }
 
 template <std::floating_point ParamType>
+/// \tparam ParamType type to work with
+/// \param p1 Origin vector of first ray
+/// \param r Direction vector of first ray
+/// \param p2 Origin vector of second ray
+/// \param s Direction vector of second ray
+/// \return parameter for intersection of the first ray.
 constexpr std::optional<ParamType> getIntersectionParam(
     const Vec2<ParamType>& p1, const Vec2<ParamType>& r,
     const Vec2<ParamType>& p2, const Vec2<ParamType>& s)
