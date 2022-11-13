@@ -18,10 +18,7 @@ IF (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-add_executable(fbmath main.cpp)
+add_library(fbmath INTERFACE)
 
 target_include_directories(fbmath
-        PUBLIC include)
-
-target_link_directories(fbmath
-        PUBLIC src)
+        INTERFACE include)
