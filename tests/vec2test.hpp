@@ -67,6 +67,32 @@ void vec2test()
         }
     );
 
+    vt.add_test("Arithmetic",
+        []() {
+            V2f a, b, c;
+
+            a = { 1.5f, 2 };
+            b = { 3, 4.3f };
+            c = a + b;
+            assert_equals(c, V2f{4.5f, 6.3f});
+
+            c = a * 4;
+            assert_equals(c, V2f{1.5f * 4, 2.0f * 4});
+
+            c = b / 3;
+            assert_equals(c, V2f{1, 4.3f/3.0f});
+
+            c *= 3;
+            assert_equals(c, V2f{3.0f, 4.3f});
+
+            c /= 4;
+            assert_equals(c, V2f{3.0f/4.0f, 4.3f/4.0f});
+
+            a += b;
+            assert_equals(a, V2f{4.5f, 6.3f});
+        }
+    );
+
     vt.add_test("Dot product",
         []() {
             V2i v { 4, 5 };

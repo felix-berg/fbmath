@@ -10,6 +10,7 @@
 namespace fbmath {
 template <Number N>
 struct Vec2 {
+    using Type = N;
     N x, y;
 
     constexpr Vec2() noexcept = default;
@@ -111,7 +112,54 @@ struct Vec2 {
 
     constexpr friend bool operator==(const Vec2&, const Vec2&) noexcept = default;
     constexpr friend bool operator!=(const Vec2&, const Vec2&) noexcept = default;
+
+    template <Number O = N>
+    constexpr Vec2& operator+=(const Vec2<O>& v)      noexcept { return (*this = *this + v); }
+    template <Number O = N>
+    constexpr Vec2& operator-=(const Vec2<O>& v)      noexcept { return (*this = *this - v); }
+    template <Number FactType>
+    constexpr Vec2& operator*=(const FactType factor) noexcept { return (*this = *this * factor); }
+    template <Number FactType>
+    constexpr Vec2& operator/=(const FactType factor) noexcept { return (*this = *this / factor); }
 };
+
+template <Number N, Number O>
+inline constexpr Vec2<MorePreciseType<N, O>> operator+ (const Vec2<N>& v, const Vec2<O>& u) {
+    using T = MorePreciseType<N, O>;
+    return {
+        T(v.x) + T(u.x),
+        T(v.y) + T(u.y)
+    };
+}
+
+template <Number N, Number O>
+inline constexpr Vec2<MorePreciseType<N, O>>  operator- (const Vec2<N>& v, const Vec2<O>& u) {
+    using T = MorePreciseType<N, O>;
+    return {
+        T(v.x) - T(u.x),
+        T(v.y) - T(u.y)
+    };
+}
+
+template <Number N, Number FacType>
+inline constexpr Vec2<MorePreciseType<N, FacType>> operator* (const Vec2<N>& v, const FacType
+factor) {
+    using T = MorePreciseType<N, FacType>;
+    return {
+        T(v.x) * T(factor),
+        T(v.y) * T(factor)
+    };
+}
+
+template <Number N, Number FacType>
+inline constexpr Vec2<MorePreciseType<N, FacType>> operator/ (const Vec2<N>& v, const FacType
+factor) {
+    using T = MorePreciseType<N, FacType>;
+    return {
+        T(v.x) / T(factor),
+        T(v.y) / T(factor)
+    };
+}
 
 template <Number N, Number O>
     requires std::equality_comparable_with<N, O>
