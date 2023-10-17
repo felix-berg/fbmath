@@ -8,7 +8,8 @@
 /* TODO remove */
 #include <vector>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 template <Number N>
 struct Vec3 {
     N x, y, z;
@@ -95,3 +96,4 @@ using V3f64 [[maybe_unused]] = Vec3<double>;
 using V3d   [[maybe_unused]] = Vec3<double>;
 
 } // fbmath
+}

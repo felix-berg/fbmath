@@ -7,10 +7,11 @@
 
 #include <cassert>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 namespace impl {
-template <Number N, Number O, Number R>
-    requires std::floating_point<MorePreciseType<N, O, R>>
+template <Number N, Number O, Number R> requires std::floating_point<
+    MorePreciseType<N, O, R>>
 struct IntersectionTypeS<Ray<N>, Circle<O, R>> {
     using Num = MorePreciseType<N, O, R>;
     using Type = std::optional<std::pair<Vec2<Num>, Vec2<Num>>>;
@@ -35,11 +36,11 @@ constexpr IntersectionType<Ray<RayN>, Circle<CN, RN>> intersection(
 
     static_assert(
         NonNarrowingConvertibleTo<RayN, T> &&
-        NonNarrowingConvertibleTo<CN, T> &&
-        NonNarrowingConvertibleTo<RN, T>);
+            NonNarrowingConvertibleTo<CN, T> &&
+            NonNarrowingConvertibleTo<RN, T>);
 
-    const V2 u  = (V2) circle.c - (V2) ray.org;
-          V2 r  = ray.dir;
+    const V2 u = (V2) circle.c - (V2) ray.org;
+    V2 r = ray.dir;
     const V2 ur = projection(u, r);
     const V2 d = u - ur;
 
@@ -48,12 +49,12 @@ constexpr IntersectionType<Ray<RayN>, Circle<CN, RN>> intersection(
     if (dsq > radsq) /* If d is outside circle, no points*/
         return std::nullopt;
 
-
     const V2 pur = ray.org + ur;
 
     if (dsq == radsq) [[unlikely]] {
         return std::make_pair(pur, pur);
-    } else [[likely]] {
+    }
+    else [[likely]] {
         /* Ray has to be normalized to make formula work */
         r.normalize();
 
@@ -65,5 +66,5 @@ constexpr IntersectionType<Ray<RayN>, Circle<CN, RN>> intersection(
         );
     }
 }
-
+}
 }

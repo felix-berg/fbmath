@@ -6,8 +6,10 @@
 #include <fbmath/3D/vec3.hpp>
 #include <fbmath/2D/boundingbox.hpp>
 #include <fbmath/2D/circle.hpp>
+#include <fbmath/matrix.hpp>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 
 template <typename N>
 std::ostream & operator <<(std::ostream& os, const Vec2<N>& v) noexcept {
@@ -30,8 +32,23 @@ std::ostream& operator<<(std::ostream& os, const Ray<N>& ray) noexcept {
 }
 
 template <typename N, typename R>
-std::ostream& operator<<(std::ostream& os, const Circle<N, R>& c) noexcept {
+std::ostream& operator<<(std::ostream& os, const Circle<N, R>& c) noexcept
+{
     return os << "[c: " << c.c << ", r: " << c.r << "]";
 }
 
+template <int M, int N, typename T>
+std::ostream& operator<<(std::ostream& os, const Matrix<M, N, T>& mv)
+{
+    os << "[\n";
+    for (int i = 0; i < M; ++i) {
+        os << "\t[";
+        for (int j = 0; j < N; ++j)
+            os << mv[i, j] << (j != N - 1 ? ", " : "");
+        os << (i != M - 1 ? "],\n" : "]\n");
+    }
+    os << "]\n";
+    return os;
+}
+}
 } // namespace fbmath

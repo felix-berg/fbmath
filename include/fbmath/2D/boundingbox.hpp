@@ -5,7 +5,8 @@
 #include <cassert>
 #include <vector>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 /// \brief Axis-aligned bounding box
 ///        top-left inclusive, bottom right exclusive
 template <Number N>
@@ -44,11 +45,5 @@ private:
     }
 };
 
-//template <Number N, Number O>
-//struct IntersectionTypeS { using type = };
-//
-//template <Number N, Number O, typename Alloc = std::allocator<Vec2<MorePreciseType<N, O>>>
-//constexpr std::vector<Vec2<MorePreciseType<N, O>>>
-//    intersects()
-
 } // namespace fbmath
+}

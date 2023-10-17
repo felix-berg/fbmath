@@ -3,7 +3,8 @@
 
 #include <concepts>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 namespace impl {
 template <typename T, typename U>
 struct IntersectionTypeS {
@@ -21,4 +22,5 @@ constexpr IntersectionType<T, U> intersection(const T& t, const U& u) noexcept
     static constexpr bool f = std::same_as<void, T>; /* always false */
     static_assert(f, "Intersection not yet implemented.");
 };
-}; // namespace
+}
+} // namespace

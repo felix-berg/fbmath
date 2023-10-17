@@ -4,16 +4,18 @@
 #include <fbmath/number.hpp>
 #include <fbmath/contants.hpp>
 
-namespace fbmath {
+namespace fb {
+namespace math {
+template <std::floating_point F = double>
+constexpr F radians(F deg) noexcept
+{
+    return (deg * twoPi<F>) / F(360.0);
+}
 
-    template <std::floating_point F = double>
-    constexpr F radians(F deg) noexcept {
-        return (deg * twoPi<F>) / F(360.0);
-    }
-
-    template <std::floating_point F = double>
-    constexpr F degrees(F rad) noexcept {
-        return (rad * F(360.0)) / twoPi<F>;
-    }
-
+template <std::floating_point F = double>
+constexpr F degrees(F rad) noexcept
+{
+    return (rad * F(360.0)) / twoPi<F>;
+}
 } // namespace fbmath
+}

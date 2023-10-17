@@ -5,34 +5,38 @@
 #include <fbmath/intersection.hpp>
 #include <optional>
 
-namespace fbmath {
+namespace fb {
+namespace math {
 template <Number N>
 struct Ray {
     Vec2<N> org, dir;
 
     constexpr Ray() = default;
+
     constexpr Ray(const Vec2<N>& _org, const Vec2<N>& _dir)
-        : org { _org }, dir { _dir } { };
+        :org { _org }, dir { _dir } { };
+
     constexpr Ray(N ox, N oy, N dx, N dy)
-        : org { ox, oy }, dir { dx, dy } { };
+        :org { ox, oy }, dir { dx, dy } { };
 
     template <std::floating_point ParamType = double>
-    constexpr Vec2<N> get(ParamType param) const noexcept {
+    constexpr Vec2<N> get(ParamType param) const noexcept
+    {
         return org + dir * param;
     }
 };
 
 namespace impl {
-    template <Number N, Number O>
-        requires std::floating_point<MorePreciseType<N, O>>
-    struct IntersectionTypeS<Ray<N>, Ray<O>> {
-        using Type = std::optional<Vec2<MorePreciseType<N, O>>>;
-    };
+template <Number N, Number O> requires std::floating_point<
+    MorePreciseType<N, O>>
+struct IntersectionTypeS<Ray<N>, Ray<O>> {
+    using Type = std::optional<Vec2<MorePreciseType<N, O>>>;
+};
 
-    template <Number N, Number O>
-    struct IntersectionTypeS<Ray<N>, Ray<O>> {
-        using Type = std::optional<V2d>;
-    };
+template <Number N, Number O>
+struct IntersectionTypeS<Ray<N>, Ray<O>> {
+    using Type = std::optional<V2d>;
+};
 }
 
 template <std::floating_point ParamType>
@@ -46,8 +50,8 @@ constexpr std::optional<ParamType> getIntersectionParam(
     const Vec2<ParamType>& p1, const Vec2<ParamType>& r,
     const Vec2<ParamType>& p2, const Vec2<ParamType>& s)
 {
-    ParamType nm = s.y*(p1.x-p2.x) - s.x*(p1.y-p2.y);
-    ParamType dn = r.y*s.x - r.x*s.y;
+    ParamType nm = s.y * (p1.x - p2.x) - s.x * (p1.y - p2.y);
+    ParamType dn = r.y * s.x - r.x * s.y;
     if (dn == ParamType(0.0))
         return std::nullopt;
     return nm / dn;
@@ -71,5 +75,5 @@ constexpr IntersectionType<Ray<N>, Ray<O>> intersection(
     else
         return r1.get(*opt);
 }
-
+}
 }; // namespace
