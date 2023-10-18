@@ -42,15 +42,21 @@ struct Vec3 {
         };
     }
 
-    template <Number SizeType = double>
-    constexpr SizeType size() const noexcept
+    constexpr N size() const noexcept
+        requires std::floating_point<N>
     {
-        return std::sqrt(static_cast<SizeType>(x * x + y * y + z * z));
+        return std::sqrt(sizeSquared());
     }
 
     constexpr N sizeSquared() const noexcept
     {
         return x * x + y * y + z * z;
+    }
+
+    constexpr void normalize() noexcept
+        requires std::floating_point<N>
+    {
+        *this /= size();
     }
 
     template <Number O>

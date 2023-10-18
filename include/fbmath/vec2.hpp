@@ -101,9 +101,9 @@ struct Vec2 {
     }
 
     constexpr void normalize() noexcept
+        requires std::floating_point<N>
     {
-        x = static_cast<N>(x / size());
-        y = static_cast<N>(y / size());
+        *this /= size();
     }
 
     template <Number SizeType = double, std::floating_point AngleType = double>
