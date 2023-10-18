@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(fbmathTests)
+project(fbmath)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
@@ -39,7 +39,9 @@ add_test(
         COMMAND circletest
 )
 
-add_executable(boundingboxtest tests/boundingboxtest.cpp)
+add_executable(boundingboxtest tests/boundingboxtest.cpp
+        include/fbmath/sphere.hpp
+        include/fbmath/intersection/sphere-ray-intersection.hpp)
 add_test(
         NAME "Bounding Box"
         COMMAND boundingboxtest

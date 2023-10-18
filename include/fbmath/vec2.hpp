@@ -1,7 +1,7 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include <fbmath/number.hpp>
-#include <fbmath/contants.hpp>
+#include "number.hpp"
+#include "contants.hpp"
 
 #include <cstdint>
 #include <concepts>
@@ -154,7 +154,7 @@ struct Vec2 {
 };
 
 template <Number N, Number O>
-inline constexpr Vec2<MorePreciseType<N, O>> operator+(const Vec2<N>& v,
+ constexpr Vec2<MorePreciseType<N, O>> operator+(const Vec2<N>& v,
     const Vec2<O>& u)
 noexcept
 {
@@ -166,7 +166,7 @@ noexcept
 }
 
 template <Number N, Number O>
-inline constexpr Vec2<MorePreciseType<N, O>> operator-(const Vec2<N>& v,
+ constexpr Vec2<MorePreciseType<N, O>> operator-(const Vec2<N>& v,
     const Vec2<O>& u)
 noexcept
 {
@@ -178,7 +178,7 @@ noexcept
 }
 
 template <Number N, Number FacType>
-inline constexpr Vec2<MorePreciseType<N, FacType>> operator*(const Vec2<N>& v,
+ constexpr Vec2<MorePreciseType<N, FacType>> operator*(const Vec2<N>& v,
     const FacType
     factor) noexcept
 {
@@ -190,7 +190,7 @@ inline constexpr Vec2<MorePreciseType<N, FacType>> operator*(const Vec2<N>& v,
 }
 
 template <Number N, Number FacType>
-inline constexpr Vec2<MorePreciseType<N, FacType>> operator/(const Vec2<N>& v,
+ constexpr Vec2<MorePreciseType<N, FacType>> operator/(const Vec2<N>& v,
     const FacType
     factor) noexcept
 {
@@ -202,11 +202,11 @@ inline constexpr Vec2<MorePreciseType<N, FacType>> operator/(const Vec2<N>& v,
 }
 
 template <Number N, Number FacType>
-inline constexpr auto operator*(const FacType factor,
+ constexpr auto operator*(const FacType factor,
     const Vec2<N>& v) noexcept { return v * factor; }
 
 template <Number N, Number FacType>
-inline constexpr auto operator/(const FacType factor,
+ constexpr auto operator/(const FacType factor,
     const Vec2<N>& v) noexcept { return v / factor; }
 
 template <Number N, Number O>
@@ -232,7 +232,7 @@ constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 template <Number N, Number O>
 /// \brief Projection of v onto o
 /// \return projection vector from v onto o (in direction of o)
-inline constexpr Vec2<MorePreciseType<N, O>> projection(const Vec2<N>& v,
+ constexpr Vec2<MorePreciseType<N, O>> projection(const Vec2<N>& v,
     const Vec2<O>& o)
 noexcept
 {

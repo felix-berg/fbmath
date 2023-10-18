@@ -1,7 +1,7 @@
 // Created by felix on 11/12/22, 10:34 PM.
 #pragma once
 
-#include <fbmath/2D/vec2.hpp>
+#include "vec2.hpp"
 #include <cassert>
 #include <vector>
 
@@ -40,7 +40,7 @@ struct BoundingBox {
     }
 private:
     template <Number T = N, Number U = N>
-    inline static constexpr bool inRange(T val, U min, U max) noexcept {
+     static constexpr bool inRange(T val, U min, U max) noexcept {
         return val >= min && val < max;
     }
 };

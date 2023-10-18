@@ -2,8 +2,8 @@
 #pragma once
 
 #include <fbmath/number.hpp>
-#include <fbmath/2D/vec2.hpp>
-#include <fbmath/3D/vec3.hpp>
+#include "vec2.hpp"
+#include "vec3.hpp"
 
 #include <cstring>
 #include <cassert>

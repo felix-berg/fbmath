@@ -1,6 +1,6 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include <fbmath/number.hpp>
+#include "number.hpp"
 #include <cstdint>
 #include <concepts>
 #include <cmath>

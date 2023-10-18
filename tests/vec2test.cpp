@@ -1,5 +1,5 @@
 // Created by felix on 11/12/22, 6:39 PM.
-#include <fbmath/2D/vec2.hpp>
+#include "fbmath/vec2.hpp"
 #include <fbmath/trigonometry.hpp>
 #include <fbtt.hpp>
 #include <iostream>

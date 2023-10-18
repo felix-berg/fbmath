@@ -2,10 +2,10 @@
 #pragma once
 
 #include <ostream>
-#include <fbmath/2D/vec2.hpp>
-#include <fbmath/3D/vec3.hpp>
-#include <fbmath/2D/boundingbox.hpp>
-#include <fbmath/2D/circle.hpp>
+#include "vec2.hpp"
+#include "vec3.hpp"
+#include "boundingbox.hpp"
+#include "circle.hpp"
 #include <fbmath/matrix.hpp>
 
 namespace fb {
@@ -32,7 +32,7 @@ std::ostream& operator<<(std::ostream& os, const Ray<N>& ray) noexcept {
 }
 
 template <typename N, typename R>
-std::ostream& operator<<(std::ostream& os, const Circle<N, R>& c) noexcept
+std::ostream& operator<<(std::ostream& os, const Circle<N>& c) noexcept
 {
     return os << "[c: " << c.c << ", r: " << c.r << "]";
 }

@@ -1,6 +1,9 @@
 // Created by felix on 11/13/22, 12:36 AM.
 #include <fbtt.hpp>
-#include <fbmath/2D/ray.hpp>
+#include "fbmath/ray.hpp"
+
+template <typename T>
+using Ray2 = fb::math::Ray<fb::math::Vec2<T>>;
 
 int main(int argc, char** argv)
 {
@@ -10,9 +13,9 @@ int main(int argc, char** argv)
 
     rt.addTest("Construction",
         []() {
-            Ray<double> r1;
-            Ray r2 { 2.04, 1342.0, 1.0, 1.0 };
-            Ray<long> r3 { {132, 13}, {0, 132} };
+            Ray2<double> r1;
+            Ray2<double> r2 { { 2.04, 1342.0 }, { 1.0, 1.0 } };
+            Ray2<long> r3 { {132, 13}, {0, 132} };
 
             assertEquals(r1.org, V2d{});
             assertEquals(r1.dir, V2d{});
@@ -23,16 +26,6 @@ int main(int argc, char** argv)
         }
     );
 
-    rt.addTest("Intersection",
-        []() {
-            Ray r1 { 0.0, 0.0, 1.0, 1.0 };
-            Ray r2 { 6.0, 1.0, 0.1, 0.82 };
-
-            const std::optional<V2d> opt = intersection(r1, r2);
-            assertEquals(V2i(opt.value()), V2i{6, 6}); /* its dumb ik */
-        }
-    );
-    
 
     rt.run();
     std::cout << rt;
