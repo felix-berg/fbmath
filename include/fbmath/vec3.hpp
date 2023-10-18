@@ -168,6 +168,16 @@ constexpr N dotProduct(const Vec3<N>& v, const Vec3<N>& u) noexcept
     return v.x * u.x + v.y * u.y + v.z * u.z;
 }
 
+template <Number N>
+constexpr Vec3<N> crossProduct(const Vec3<N>& v, const Vec3<N>& u) noexcept
+{
+    return {
+        v.y * u.z - v.z * u.y,
+        v.z * u.x - v.x * u.z,
+        v.x * v.y - v.y * u.x
+    };
+}
+
 using V3i   [[maybe_unused]] = Vec3<int>;
 using V3u   [[maybe_unused]] = Vec3<uint32_t>;
 using V3i32 [[maybe_unused]] = Vec3<int32_t>;

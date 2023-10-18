@@ -143,7 +143,6 @@ int main(int argc, char** argv)
         }
     );
 
-
     vt.run();
     std::cout << vt;
 
