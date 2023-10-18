@@ -11,6 +11,15 @@
 namespace fb {
 namespace math {
 template <Number N>
+struct Vec2;
+
+template <Number N, std::floating_point SizeType = N>
+constexpr SizeType size(const Vec2<N>& v) noexcept;
+
+template <Number N, Number SizeType = N>
+constexpr SizeType sizeSquared(const Vec2<N>& v) noexcept;
+
+template <Number N>
 struct Vec2 {
     using Type = N;
     N x, y;
@@ -36,25 +45,15 @@ struct Vec2 {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
     }
 
-    template <Number O>
-    /// \brief Force narrowing conversion from Type N to O
-    /// \tparam O Type to force upon the resulting vector.
-    /// \return Copy of vector with given Number Type.
-    constexpr Vec2<O> convertTo() const noexcept
+    constexpr N size() const noexcept
+        requires std::floating_point<N>
     {
-        return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
-    };
-
-    template <Number SizeType = double>
-    constexpr SizeType size() const noexcept
-    {
-        return std::sqrt(static_cast<SizeType>(x * x + y * y));
+        return std::sqrt(x * x + y * y);
     }
 
-    template <Number SizeType = N>
-    constexpr SizeType sizeSquared() const noexcept
+    constexpr N sizeSquared() const noexcept
     {
-        return static_cast<SizeType>(x * x + y * y);
+        return x * x + y * y;
     }
 
     template <std::floating_point AngleType = double>
@@ -62,10 +61,10 @@ struct Vec2 {
     {
         /* a = cos(x / sz) = cos(x^2 / sz^2) */
         AngleType angle = std::acos(
-            static_cast<AngleType>(x) / size<AngleType>());
+            static_cast<AngleType>(x) / size<AngleType>(*this));
 
-        bool pX = x >= N(); /* x positive? */
-        bool pY = y >= N(); /* y positive? */
+        bool pX = x >= N{0}; /* x positive? */
+        bool pY = y >= N{0}; /* y positive? */
 
         if (pX && pY) return angle;                 /* 1st quadrant */
         else if (!pX && pY) return pi<AngleType> - angle; /* 2nd quadrant */
@@ -119,8 +118,10 @@ struct Vec2 {
     template <Number O>
     static constexpr Vec2 from(const Vec2<O>& v) noexcept
     {
-        /* syntax: https://stackoverflow.com/questions/3786360/confusing-template-error */
-        return v.template convertTo<N>();
+        return {
+            static_cast<N>(v.x),
+            static_cast<N>(v.y)
+        };
     }
 
     constexpr friend bool operator==(const Vec2&,
@@ -160,8 +161,8 @@ noexcept
 {
     using T = MorePreciseType<N, O>;
     return {
-        T(v.x) + T(u.x),
-        T(v.y) + T(u.y)
+        static_cast<T>(v.x) + static_cast<T>(u.x),
+        static_cast<T>(v.y) + static_cast<T>(u.y)
     };
 }
 
@@ -172,8 +173,8 @@ noexcept
 {
     using T = MorePreciseType<N, O>;
     return {
-        T(v.x) - T(u.x),
-        T(v.y) - T(u.y)
+        static_cast<T>(v.x) - static_cast<T>(u.x),
+        static_cast<T>(v.y) - static_cast<T>(u.y)
     };
 }
 
@@ -184,8 +185,8 @@ template <Number N, Number FacType>
 {
     using T = MorePreciseType<N, FacType>;
     return {
-        T(v.x) * T(factor),
-        T(v.y) * T(factor)
+        static_cast<T>(v.x) * static_cast<T>(factor),
+        static_cast<T>(v.y) * static_cast<T>(factor)
     };
 }
 
@@ -196,8 +197,8 @@ template <Number N, Number FacType>
 {
     using T = MorePreciseType<N, FacType>;
     return {
-        T(v.x) / T(factor),
-        T(v.y) / T(factor)
+        static_cast<T>(v.x) / static_cast<T>(factor),
+        static_cast<T>(v.y) / static_cast<T>(factor)
     };
 }
 
@@ -223,23 +224,24 @@ constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u) noexcept
     return v.x != u.x || v.y != u.y;
 }
 
+template <Number N, Number SizeType>
+constexpr SizeType sizeSquared(const Vec2<N>& v) noexcept
+{
+    SizeType x = static_cast<SizeType>(v.x);
+    SizeType y = static_cast<SizeType>(v.y);
+    return x * x + y * y;
+}
+
+template <Number N, std::floating_point SizeType>
+constexpr SizeType size(const Vec2<N>& v) noexcept
+{
+    return std::sqrt(sizeSquared<SizeType>(v));
+}
+
 template <Number N>
 constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     return v.x * u.x + v.y * u.y;
-}
-
-template <Number N, Number O>
-/// \brief Projection of v onto o
-/// \return projection vector from v onto o (in direction of o)
- constexpr Vec2<MorePreciseType<N, O>> projection(const Vec2<N>& v,
-    const Vec2<O>& o)
-noexcept
-{
-    using T = MorePreciseType<N, O>;
-    T ssq = o.template sizeSquared<T>();
-    assert(ssq > T(0));
-    return (dotProduct<T>(v, o) / ssq) * o;
 }
 
 template <std::floating_point AngleType = double, Number N>

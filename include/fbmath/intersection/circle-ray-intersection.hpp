@@ -11,41 +11,38 @@ namespace fb {
 namespace math {
 
 template <Number N>
-using CircleRayIntersection = std::pair<Vec2<N>, Vec2<N>>;
+using CircleRayIntersection = std::optional<std::pair<Vec2<N>, Vec2<N>>>;
 
-template <Number R, Number C>
-constexpr auto intersection(
-    const Ray<Vec2<R>>& ray, const Circle<C>& circle)
-    -> std::optional<CircleRayIntersection<MorePreciseType<R, C>>>
+template <Number C, Number R,
+    std::floating_point ResultType = MorePreciseType<C, R>>
+constexpr CircleRayIntersection<ResultType> intersection(
+    const Circle<C>& circle, const Ray<Vec2<R>>& ray)
 {
-    using S = MorePreciseType<R, C>;
-    using VecS = Vec2<S>;
+    using S = ResultType;
+    using VS = Vec2<S>;
 
-    const VecS u = static_cast<VecS>(circle.c) - static_cast<VecS>(ray.org);
-    VecS r = ray.dir;
-    const VecS ur = projection(u, r);
-    const VecS d = u - ur;
+    const VS org = static_cast<VS>(ray.org);
+    const VS oc = org - static_cast<VS>(circle.c);
+    const VS dir = static_cast<VS>(ray.dir);
+    const S rsq = static_cast<S>(circle.r) * static_cast<S>(circle.r);
 
-    const S radsq = S(circle.r) * S(circle.r);
-    const S dsq = d.template sizeSquared<S>();
-    if (dsq > radsq) /* If d is outside circle, no points*/
+    const S a = dir.sizeSquared();
+    const S b = 2 * (dotProduct(dir, oc));
+    const S c = oc.sizeSquared() - rsq;
+
+    // discriminant
+    const S dis = b * b - 4 * a * c;
+    if (dis < S { 0 }) {
         return std::nullopt;
-
-    const VecS pur = ray.org + ur;
-
-    if (dsq == radsq) [[unlikely]] {
-        return std::make_pair(pur, pur);
-    } else [[likely]] {
-        /* Ray has to be normalized to make formula work */
-        r.normalize();
-
-        const S rt = std::sqrt(radsq - dsq);
-        const VecS p1 = pur + rt * r;
-        const VecS p2 = pur - rt * r;
-        return std::make_pair(
-            p1, p2
-        );
+    } else if (dis == 0) {
+        VS its = org + dir * (-b / (2 * a));
+        return std::make_pair(its, its);
     }
+
+    return std::make_pair(
+        org + dir * (-b + std::sqrt(dis)) / (2 * a),
+        org + dir * (-b - std::sqrt(dis)) / (2 * a)
+    );
 }
 }
 }

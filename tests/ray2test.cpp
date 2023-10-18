@@ -2,9 +2,6 @@
 #include <fbtt.hpp>
 #include "fbmath/ray.hpp"
 
-template <typename T>
-using Ray2 = fb::math::Ray<fb::math::Vec2<T>>;
-
 int main(int argc, char** argv)
 {
     using namespace fb::math;

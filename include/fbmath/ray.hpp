@@ -1,7 +1,8 @@
 // Created by felix on 11/12/22, 11:35 PM.
 #pragma once
 
-#include "vec2.hpp"
+#include <fbmath/vec2.hpp>
+#include <fbmath/vec3.hpp>
 #include <optional>
 
 namespace fb { namespace math {
@@ -15,10 +16,17 @@ struct Ray {
         :org { _org }, dir { _dir } { };
 
     template <std::floating_point ParamType = double>
-    constexpr Vector get(ParamType param) const noexcept
+    constexpr Vector at(ParamType param) const noexcept
     {
         return org + dir * param;
     }
 };
+
+template <Number N>
+using Ray2 = Ray<Vec2<N>>;
+
+template <Number N>
+using Ray3 = Ray<Vec3<N>>;
+
 }
 }; // namespace

@@ -27,9 +27,9 @@ add_test(
     COMMAND vec2test
 )
 
-add_executable(raytest tests/raytest.cpp)
+add_executable(raytest tests/ray2test.cpp)
 add_test(
-        NAME "Ray"
+        NAME "2D Ray"
         COMMAND raytest
 )
 
@@ -39,9 +39,7 @@ add_test(
         COMMAND circletest
 )
 
-add_executable(boundingboxtest tests/boundingboxtest.cpp
-        include/fbmath/sphere.hpp
-        include/fbmath/intersection/sphere-ray-intersection.hpp)
+add_executable(boundingboxtest tests/boundingboxtest.cpp)
 add_test(
         NAME "Bounding Box"
         COMMAND boundingboxtest
@@ -50,4 +48,10 @@ add_executable(matrixtest tests/matrixtest.cpp)
 add_test(
         NAME "Matrix"
         COMMAND matrixtest
+)
+
+add_executable(spheretest tests/spheretest.cpp)
+add_test(
+        NAME "Sphere"
+        COMMAND spheretest
 )

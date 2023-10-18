@@ -35,17 +35,12 @@ struct Vec3 {
     template <NonNarrowingConvertibleTo<N> O>
     constexpr operator Vec3<O>() const noexcept
     {
-        return Vec3<O>(static_cast<O>(x), static_cast<O>(y), static_cast<O>(z));
+        return Vec3<O> {
+            static_cast<O>(x),
+            static_cast<O>(y),
+            static_cast<O>(z)
+        };
     }
-
-    template <Number O>
-    /// \brief Force narrowing conversion from Type N to O
-    /// \tparam O Type to force upon the resulting vector.
-    /// \return Copy of vector with given Number Type.
-    constexpr Vec3<O> convertTo() const noexcept
-    {
-        return Vec3<O>(static_cast<O>(x), static_cast<O>(y), static_cast<O>(z));
-    };
 
     template <Number SizeType = double>
     constexpr SizeType size() const noexcept
@@ -58,9 +53,100 @@ struct Vec3 {
         return x * x + y * y + z * z;
     }
 
+    template <Number O>
+    static constexpr Vec3 from(const Vec3<O>& other) noexcept
+    {
+        return {
+            static_cast<N>(other.x),
+            static_cast<N>(other.y),
+            static_cast<N>(other.z)
+        };
+    }
+
+    template <Number O>
+    static constexpr Vec3 all(O v) noexcept
+    {
+        return { static_cast<N>(v), static_cast<N>(v), static_cast<N>(v) };
+    }
+
     constexpr friend bool operator==(const Vec3&, const Vec3&) = default;
     constexpr friend bool operator!=(const Vec3&, const Vec3&) = default;
+
+    template <Number O = N>
+    constexpr Vec3& operator+=(const Vec3<O>& v) noexcept
+    {
+        return (*this = *this + v);
+    }
+
+    template <Number O = N>
+    constexpr Vec3& operator-=(const Vec3<O>& v) noexcept
+    {
+        return (*this = *this - v);
+    }
+
+    template <Number FactType>
+    constexpr Vec3& operator*=(const FactType factor) noexcept
+    {
+        return (*this = *this * factor);
+    }
+
+    template <Number FactType>
+    constexpr Vec3& operator/=(const FactType factor) noexcept
+    {
+        return (*this = *this / factor);
+    }
 };
+
+template <Number N, Number O>
+constexpr Vec3<MorePreciseType<N, O>> operator+(const Vec3<N>& v,
+    const Vec3<O>& u)
+noexcept
+{
+    using T = MorePreciseType<N, O>;
+    return {
+        static_cast<T>(v.x) + static_cast<T>(u.x),
+        static_cast<T>(v.y) + static_cast<T>(u.y),
+        static_cast<T>(v.z) + static_cast<T>(u.z),
+    };
+}
+
+template <Number N, Number O>
+constexpr Vec3<MorePreciseType<N, O>> operator-(const Vec3<N>& v,
+    const Vec3<O>& u)
+noexcept
+{
+    using T = MorePreciseType<N, O>;
+    return {
+        static_cast<T>(v.x) - static_cast<T>(u.x),
+        static_cast<T>(v.y) - static_cast<T>(u.y),
+        static_cast<T>(v.z) - static_cast<T>(u.z),
+    };
+}
+
+template <Number N, Number FacType>
+constexpr Vec3<MorePreciseType<N, FacType>> operator*(const Vec3<N>& v,
+    const FacType
+    factor) noexcept
+{
+    using T = MorePreciseType<N, FacType>;
+    return {
+        static_cast<T>(v.x) * static_cast<T>(factor),
+        static_cast<T>(v.y) * static_cast<T>(factor),
+        static_cast<T>(v.z) * static_cast<T>(factor),
+    };
+}
+
+template <Number N, Number FacType>
+constexpr Vec3<MorePreciseType<N, FacType>> operator/(const Vec3<N>& v,
+    const FacType factor) noexcept
+{
+    using T = MorePreciseType<N, FacType>;
+    return {
+        static_cast<T>(v.x) / static_cast<T>(factor),
+        static_cast<T>(v.y) / static_cast<T>(factor),
+        static_cast<T>(v.z) / static_cast<T>(factor),
+    };
+}
 
 template <Number N, Number O>
     requires std::equality_comparable_with<N, O>

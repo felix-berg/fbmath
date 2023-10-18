@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     /* Construction */
     MultiTest vt { "Test of vec2" };
 
-    vt.addTest("Construction",
+    vt.addTest("Construction/conversion",
         []() {
             V2i v1 [[maybe_unused]];
             V2i v2(1, 2);
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
             Vec2<double> vd = vf; /* allowed */
 
             /* Vec2<float> vf2 = vd <- doesn't compile */
-            Vec2<float> vf2 [[maybe_unused]] = vd.convertTo<float>();
+            Vec2<float> vf2 [[maybe_unused]] = Vec2<float>::from(vd);
         }
     );
 

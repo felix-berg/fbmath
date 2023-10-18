@@ -29,7 +29,7 @@ int main() {
         []() {
             const Circle c { 5, 6, 3 };
             const Ray<V2d> r { { 3.0, 1.0 }, { 2.01, 10.05 } };
-            const auto opt = intersection(r, c);
+            const auto opt = intersection(c, r);
             assertTrue(opt.has_value(), "Intersection not found");
         }
     );
