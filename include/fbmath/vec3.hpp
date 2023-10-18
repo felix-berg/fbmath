@@ -180,7 +180,7 @@ constexpr Vec3<N> crossProduct(const Vec3<N>& v, const Vec3<N>& u) noexcept
     return {
         v.y * u.z - v.z * u.y,
         v.z * u.x - v.x * u.z,
-        v.x * v.y - v.y * u.x
+        v.x * u.y - v.y * u.x
     };
 }
 
