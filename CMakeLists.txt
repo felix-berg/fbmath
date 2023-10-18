@@ -5,12 +5,19 @@ project(fbmathTests)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
 
-add_subdirectory(include)
 add_subdirectory(external/fbtt)
+
 include_directories(
     include
     external/fbtt/include)
+
 link_libraries(fbmath fbtt)
+
+add_library(fbmath INTERFACE)
+
+target_include_directories(fbmath
+        INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
 
 enable_testing()
 

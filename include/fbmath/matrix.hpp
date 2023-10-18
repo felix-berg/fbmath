@@ -9,6 +9,7 @@
 #include <cassert>
 #include <iostream>
 #include <algorithm>
+#include <array>
 
 namespace fb {
 namespace math {
