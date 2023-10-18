@@ -25,21 +25,21 @@ constexpr SphereRayIntersection<ResultType> intersection(
     const T rsq = static_cast<T>(sphere.r) * static_cast<T>(sphere.r);
 
     const T a = dir.sizeSquared();
-    const T b = 2 * (dotProduct(dir, oc));
+    const T b = T{2} * (dotProduct(dir, oc));
     const T c = oc.sizeSquared() - rsq;
 
     // discriminant
-    const T dis = b * b - 4 * a * c;
+    const T dis = b * b - T{4} * a * c;
     if (dis < T { 0 }) {
         return std::nullopt;
     } else if (dis == 0) {
-        VS its = org + dir * (-b / (2 * a));
+        VS its = org + dir * (-b / (T{2} * a));
         return std::make_pair(its, its);
     }
 
     return std::make_pair(
-        org + dir * (-b + std::sqrt(dis)) / (2 * a),
-        org + dir * (-b - std::sqrt(dis)) / (2 * a)
+        org + dir * (-b + std::sqrt(dis)) / (T{2} * a),
+        org + dir * (-b - std::sqrt(dis)) / (T{2} * a)
     );
 }
 

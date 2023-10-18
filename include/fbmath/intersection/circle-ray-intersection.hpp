@@ -27,21 +27,21 @@ constexpr CircleRayIntersection<ResultType> intersection(
     const S rsq = static_cast<S>(circle.r) * static_cast<S>(circle.r);
 
     const S a = dir.sizeSquared();
-    const S b = 2 * (dotProduct(dir, oc));
+    const S b = S{2} * (dotProduct(dir, oc));
     const S c = oc.sizeSquared() - rsq;
 
     // discriminant
-    const S dis = b * b - 4 * a * c;
+    const S dis = b * b - S{4} * a * c;
     if (dis < S { 0 }) {
         return std::nullopt;
     } else if (dis == 0) {
-        VS its = org + dir * (-b / (2 * a));
+        VS its = org + dir * (-b / (S{2} * a));
         return std::make_pair(its, its);
     }
 
     return std::make_pair(
-        org + dir * (-b + std::sqrt(dis)) / (2 * a),
-        org + dir * (-b - std::sqrt(dis)) / (2 * a)
+        org + dir * (-b + std::sqrt(dis)) / (S{2} * a),
+        org + dir * (-b - std::sqrt(dis)) / (S{2} * a)
     );
 }
 }
