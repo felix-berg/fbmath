@@ -48,12 +48,12 @@ struct Vec2 {
     constexpr N size() const noexcept
         requires std::floating_point<N>
     {
-        return std::sqrt(x * x + y * y);
+        return size<N>(*this);
     }
 
     constexpr N sizeSquared() const noexcept
     {
-        return x * x + y * y;
+        return sizeSquared<N>(*this);
     }
 
     template <std::floating_point AngleType = double>

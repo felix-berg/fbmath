@@ -43,14 +43,14 @@ struct Vec3 {
     }
 
     constexpr N size() const noexcept
-        requires std::floating_point<N>
+    requires std::floating_point<N>
     {
-        return std::sqrt(sizeSquared());
+        return size<N>(*this);
     }
 
     constexpr N sizeSquared() const noexcept
     {
-        return x * x + y * y + z * z;
+        return sizeSquared<N>(*this);
     }
 
     constexpr Vec3 unit() const noexcept
