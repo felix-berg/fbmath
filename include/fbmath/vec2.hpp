@@ -106,6 +106,12 @@ struct Vec2 {
         *this /= size();
     }
 
+    constexpr Vec2 unit() const noexcept
+    requires std::floating_point<N>
+    {
+        return *this / size();
+    }
+
     template <Number SizeType = double, std::floating_point AngleType = double>
     static constexpr Vec2 fromAngle(AngleType angle,
         SizeType sz = 1.0f) noexcept

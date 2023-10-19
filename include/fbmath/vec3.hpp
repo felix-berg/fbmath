@@ -53,6 +53,12 @@ struct Vec3 {
         return x * x + y * y + z * z;
     }
 
+    constexpr Vec3 unit() const noexcept
+        requires std::floating_point<N>
+    {
+        return *this / size();
+    }
+
     constexpr void normalize() noexcept
         requires std::floating_point<N>
     {
