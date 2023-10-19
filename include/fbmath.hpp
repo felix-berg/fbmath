@@ -9,3 +9,4 @@
 #include "fbmath/vec3.hpp"
 #include <fbmath/ostream_interop.hpp>
 #include <fbmath/trigonometry.hpp>
+#include <fbmath/valueutil.hpp>
