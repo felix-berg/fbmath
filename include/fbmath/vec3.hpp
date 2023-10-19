@@ -10,6 +10,8 @@
 
 namespace fb {
 namespace math {
+
+
 template <Number N>
 struct Vec3 {
     N x, y, z;
@@ -50,7 +52,7 @@ struct Vec3 {
 
     constexpr N sizeSquared() const noexcept
     {
-        return sizeSquared<N>(*this);
+        return x * x + y * y + z * z;
     }
 
     constexpr Vec3 unit() const noexcept
@@ -116,6 +118,12 @@ struct Vec3 {
         return { -x, -y, -z };
     }
 };
+
+template <Number N, std::floating_point SizeType = N>
+constexpr SizeType size(const Vec3<N>& v) noexcept
+{
+    return std::sqrt(Vec3<SizeType>::from(v).sizeSquared());
+}
 
 template <Number N, Number O>
 constexpr Vec3<MorePreciseType<N, O>> operator+(const Vec3<N>& v,

@@ -16,9 +16,6 @@ struct Vec2;
 template <Number N, std::floating_point SizeType = N>
 constexpr SizeType size(const Vec2<N>& v) noexcept;
 
-template <Number N, Number SizeType = N>
-constexpr SizeType sizeSquared(const Vec2<N>& v) noexcept;
-
 template <Number N>
 struct Vec2 {
     using Type = N;
@@ -53,11 +50,12 @@ struct Vec2 {
 
     constexpr N sizeSquared() const noexcept
     {
-        return sizeSquared<N>(*this);
+        return x * x + y * y;
     }
 
     template <std::floating_point AngleType = double>
     constexpr AngleType angle() const noexcept
+        requires std::floating_point<N>
     {
         /* a = cos(x / sz) = cos(x^2 / sz^2) */
         AngleType angle = std::acos(
@@ -240,18 +238,10 @@ constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u) noexcept
     return v.x != u.x || v.y != u.y;
 }
 
-template <Number N, Number SizeType>
-constexpr SizeType sizeSquared(const Vec2<N>& v) noexcept
-{
-    SizeType x = static_cast<SizeType>(v.x);
-    SizeType y = static_cast<SizeType>(v.y);
-    return x * x + y * y;
-}
-
 template <Number N, std::floating_point SizeType>
 constexpr SizeType size(const Vec2<N>& v) noexcept
 {
-    return std::sqrt(sizeSquared<SizeType>(v));
+    return std::sqrt(Vec2<SizeType>::from(v).sizeSquared());
 }
 
 template <Number N>
