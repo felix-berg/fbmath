@@ -124,6 +124,12 @@ struct Vec2 {
         };
     }
 
+    template <Number O>
+    static constexpr Vec2 all(O v) noexcept
+    {
+        return { static_cast<N>(v), static_cast<N>(v) };
+    }
+
     constexpr friend bool operator==(const Vec2&,
         const Vec2&) noexcept = default;
     constexpr friend bool operator!=(const Vec2&,
@@ -151,6 +157,14 @@ struct Vec2 {
     constexpr Vec2& operator/=(const FactType factor) noexcept
     {
         return (*this = *this / factor);
+    }
+
+    constexpr Vec2 operator+() const noexcept {
+        return *this;
+    }
+
+    constexpr Vec2 operator-() const noexcept {
+        return { -x, -y };
     }
 };
 
@@ -205,10 +219,6 @@ template <Number N, Number FacType>
 template <Number N, Number FacType>
  constexpr auto operator*(const FacType factor,
     const Vec2<N>& v) noexcept { return v * factor; }
-
-template <Number N, Number FacType>
- constexpr auto operator/(const FacType factor,
-    const Vec2<N>& v) noexcept { return v / factor; }
 
 template <Number N, Number O>
 requires std::equality_comparable_with<N, O>

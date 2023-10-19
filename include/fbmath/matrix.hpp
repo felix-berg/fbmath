@@ -165,6 +165,22 @@ struct Matrix {
         return *this;
     }
 
+    constexpr Matrix operator+() const noexcept
+        requires Number<T>
+    {
+        Matrix result;
+        for (int i = 0; i < data.size(); ++i)
+            result.data[i] = +data[i];
+    }
+
+    constexpr Matrix operator-() const noexcept
+        requires Number<T>
+    {
+        Matrix result;
+        for (int i = 0; i < data.size(); ++i)
+            result.data[i] = -data[i];
+    }
+
     template <typename U>
     constexpr bool operator==(const Matrix<M, N,
         U>& other) const noexcept

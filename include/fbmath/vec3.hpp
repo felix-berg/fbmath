@@ -101,6 +101,14 @@ struct Vec3 {
     {
         return (*this = *this / factor);
     }
+
+    constexpr Vec3 operator+() const noexcept {
+        return *this;
+    }
+
+    constexpr Vec3 operator-() const noexcept {
+        return { -x, -y, -z };
+    }
 };
 
 template <Number N, Number O>
