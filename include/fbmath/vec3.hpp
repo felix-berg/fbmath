@@ -142,6 +142,14 @@ constexpr Vec3<MorePreciseType<N, FacType>> operator*(const Vec3<N>& v,
     };
 }
 
+template <Number FacType, Number N>
+constexpr Vec3<MorePreciseType<N, FacType>> operator*(
+    const FacType factor, const Vec3<N>& v) noexcept
+{
+    return v * factor;
+}
+
+
 template <Number N, Number FacType>
 constexpr Vec3<MorePreciseType<N, FacType>> operator/(const Vec3<N>& v,
     const FacType factor) noexcept
