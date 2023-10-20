@@ -1,8 +1,8 @@
 // Created by felix on 11/13/22, 2:24 PM.
 #pragma once
 
-#include "fbmath/ray.hpp"
-#include "fbmath/circle.hpp"
+#include "fbmath/primitives/ray.hpp"
+#include "fbmath/primitives/circle.hpp"
 #include "fbmath/ostream_interop.hpp"
 
 #include <cassert>

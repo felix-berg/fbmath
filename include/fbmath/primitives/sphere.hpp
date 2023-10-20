@@ -1,7 +1,8 @@
 // Created by felix on 10/18/23, 12:27 PM
 #pragma once
 
-#include "number.hpp"
+#include "fbmath/number.hpp"
+#include "fbmath/primitives/primitive-predeclaration.hpp"
 #include "vec3.hpp"
 
 namespace fb { namespace math {

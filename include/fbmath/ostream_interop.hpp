@@ -2,11 +2,11 @@
 #pragma once
 
 #include <ostream>
-#include "vec2.hpp"
-#include "vec3.hpp"
-#include "boundingbox.hpp"
-#include "circle.hpp"
-#include <fbmath/matrix.hpp>
+#include "fbmath/primitives/vec2.hpp"
+#include "fbmath/primitives/vec3.hpp"
+#include "fbmath/primitives/boundingbox.hpp"
+#include "fbmath/primitives/circle.hpp"
+#include "fbmath/primitives/matrix.hpp"
 
 namespace fb {
 namespace math {

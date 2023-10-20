@@ -1,17 +1,14 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include "number.hpp"
 #include <cstdint>
 #include <concepts>
 #include <cmath>
 
-/* TODO remove */
-#include <vector>
+#include "fbmath/number.hpp"
+#include "fbmath/primitives/primitive-predeclaration.hpp"
 
 namespace fb {
 namespace math {
-
-
 template <Number N>
 struct Vec3 {
     N x, y, z;
@@ -27,21 +24,11 @@ struct Vec3 {
           z { static_cast<N>(_z) }
   { };
 
-    template <NonNarrowingConvertibleTo<N> O>
-    constexpr Vec3(const Vec3<O>& other) noexcept
-        : x { static_cast<N>(other.x) },
-          y { static_cast<N>(other.y) },
-          z { static_cast<N>(other.z) }
-    { };
-
-    template <NonNarrowingConvertibleTo<N> O>
-    constexpr operator Vec3<O>() const noexcept
+    template <Number O>
+    constexpr operator Vec2<O>() const noexcept
+        requires NonNarrowingConvertibleTo<O, N>
     {
-        return Vec3<O> {
-            static_cast<O>(x),
-            static_cast<O>(y),
-            static_cast<O>(z)
-        };
+        return Vec2<O>(static_cast<O>(x), static_cast<O>(y), static_cast<O>(z));
     }
 
     constexpr N size() const noexcept

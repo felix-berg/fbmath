@@ -1,21 +1,16 @@
 // Created by felix on 10/16/23, 4:55 PM
 #pragma once
 
-#include <fbmath/number.hpp>
-#include "vec2.hpp"
-#include "vec3.hpp"
+#include "fbmath/number.hpp"
+#include "fbmath/primitives/primitive-predeclaration.hpp"
 
 #include <cstring>
 #include <cassert>
-#include <iostream>
 #include <algorithm>
 #include <array>
 
 namespace fb {
 namespace math {
-template <int M, int N, typename T>
-struct Matrix;
-
 template <int M, int N, typename T, typename U>
 constexpr void transposeInto(
     Matrix<N, M, T>& transposed, const Matrix<M, N, U>& matrix

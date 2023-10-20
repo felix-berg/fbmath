@@ -1,7 +1,7 @@
 // Created by felix on 10/18/23, 1:58 PM
 
 #include <fbtt.hpp>
-#include <fbmath/sphere.hpp>
+#include "fbmath/primitives/sphere.hpp"
 #include <fbmath/intersection/sphere-ray-intersection.hpp>
 #include <fbmath/ostream_interop.hpp>
 

@@ -1,5 +1,5 @@
 // Created by felix on 11/12/22, 10:50 PM.
-#include "fbmath/boundingbox.hpp"
+#include "fbmath/primitives/boundingbox.hpp"
 #include <fbtt.hpp>
 
 int main() {

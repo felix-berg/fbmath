@@ -1,5 +1,5 @@
 // Created by felix on 11/13/22, 2:24 PM.
-#include "fbmath/circle.hpp"
+#include "fbmath/primitives/circle.hpp"
 #include "fbmath/intersection/circle-ray-intersection.hpp"
 #include <fbtt.hpp>
 

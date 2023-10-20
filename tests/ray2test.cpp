@@ -1,6 +1,7 @@
 // Created by felix on 11/13/22, 12:36 AM.
 #include <fbtt.hpp>
-#include "fbmath/ray.hpp"
+#include "fbmath/primitives/vec2.hpp"
+#include "fbmath/primitives/ray.hpp"
 
 int main(int argc, char** argv)
 {

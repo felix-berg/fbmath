@@ -1,5 +1,5 @@
 // Created by felix on 11/12/22, 6:39 PM.
-#include "fbmath/vec2.hpp"
+#include "fbmath/primitives/vec2.hpp"
 #include <fbmath/trigonometry.hpp>
 #include <fbtt.hpp>
 #include <iostream>
@@ -37,8 +37,8 @@ int main(int argc, char** argv)
             Vec2<float> vf = { x, y }; /* integral -> fp allowed */
             Vec2<double> vd = vf; /* allowed */
 
-            /* Vec2<float> vf2 = vd <- doesn't compile */
-            Vec2<float> vf2 [[maybe_unused]] = Vec2<float>::from(vd);
+//            Vec2<float> vf2 = vd; // <- doesn't compile
+            Vec2<float> vf3 [[maybe_unused]] = Vec2<float>::from(vd);
         }
     );
 

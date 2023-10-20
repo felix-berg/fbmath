@@ -1,7 +1,7 @@
 // Created by felix on 10/16/23, 4:53 PM
 
 #include <fbtt.hpp>
-#include <fbmath/matrix.hpp>
+#include "fbmath/primitives/matrix.hpp"
 #include <fbmath/ostream_interop.hpp>
 
 using namespace fb::math;

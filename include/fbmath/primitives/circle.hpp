@@ -1,6 +1,8 @@
 // Created by felix on 11/13/22, 2:11 PM.
 #pragma once
-#include "fbmath/ray.hpp"
+#include "fbmath/number.hpp"
+#include "fbmath/primitives/vec2.hpp"
+
 namespace fb {
 namespace math {
 template <Number N>

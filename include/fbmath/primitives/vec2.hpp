@@ -1,7 +1,8 @@
 // Created by felix on 11/12/22, 5:53 PM.
 #pragma once
-#include "number.hpp"
-#include "contants.hpp"
+#include "fbmath/number.hpp"
+#include "fbmath/contants.hpp"
+#include "fbmath/primitives/primitive-predeclaration.hpp"
 
 #include <cstdint>
 #include <concepts>
@@ -10,9 +11,6 @@
 
 namespace fb {
 namespace math {
-template <Number N>
-struct Vec2;
-
 template <Number N, std::floating_point SizeType = N>
 constexpr SizeType size(const Vec2<N>& v) noexcept;
 
@@ -32,12 +30,9 @@ struct Vec2 {
         : x { static_cast<N>(_x) },
           y { static_cast<N>(_y) } { };
 
-    template <NonNarrowingConvertibleTo<N> O>
-    constexpr Vec2(const Vec2<O>& other) noexcept
-        : Vec2(static_cast<N>(other.x), static_cast<N>(other.y)) { };
-
-    template <NonNarrowingConvertibleTo<N> O>
+    template <Number O>
     constexpr operator Vec2<O>() const noexcept
+        requires NonNarrowingConvertibleTo<N, O>
     {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
     }
@@ -257,7 +252,7 @@ constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     /* cos^-1((v · u)/(|v| * |u|)) */
 
-    AngleType over = dotProduct<AngleType>(v, u);
+    AngleType over = dotProduct(v, u);
     /* √v * √u = √(v * u) */
     AngleType under = std::sqrt(static_cast<AngleType>(
         v.sizeSquared() * u.sizeSquared()));

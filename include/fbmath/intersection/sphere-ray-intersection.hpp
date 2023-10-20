@@ -1,8 +1,8 @@
 // Created by felix on 10/18/23, 12:55 PM
 #pragma once
 
-#include <fbmath/sphere.hpp>
-#include <fbmath/ray.hpp>
+#include "fbmath/primitives/sphere.hpp"
+#include "fbmath/primitives/ray.hpp"
 
 namespace fb { namespace math {
 

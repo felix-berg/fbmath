@@ -52,9 +52,9 @@ template <typename N, typename C>
 concept MorePreciseThan = Number<N> && Number<C>
     && std::same_as<MorePreciseType<N, C>, N>;
 
-template <typename N, typename O>
-concept NonNarrowingConvertibleTo = Number<N> && Number<O>
-    && MorePreciseThan<O, N>;
+template <typename From, typename To>
+concept NonNarrowingConvertibleTo = Number<From> && Number<To>
+    && MorePreciseThan<To, From>;
 
 static_assert(
     Number<char> &&
