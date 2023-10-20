@@ -55,3 +55,9 @@ add_test(
         NAME "Sphere"
         COMMAND spheretest
 )
+
+add_executable(simdvec3buffertest tests/simdvec3buffertest.cpp)
+add_test(
+        NAME "SIMD Vec3 Buffer"
+        COMMAND simdvec3buffertest
+)
