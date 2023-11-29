@@ -18,7 +18,6 @@ constexpr void transposeInto(
 
 template <int M, int N, typename T>
 struct Matrix {
-
     std::array<T, M * N> data;
 
     static_assert(M >= 0, "Number of rows must be positive");
@@ -200,7 +199,8 @@ struct Matrix {
     constexpr auto end() const noexcept { return data.cend(); }
 
 
-    static constexpr Matrix identity()requires (M == N)
+    static constexpr Matrix identity()
+        requires (M == N)
     {
         Matrix m;
         for (int i = 0; i < M; ++i)
@@ -323,14 +323,14 @@ using Mat2d = Mat2<double>;
 
 template <typename T>
 using Mat3 [[maybe_unused]] = Matrix<3, 3, T>;
-using Mat3i = Mat2<int>;
-using Mat3f = Mat2<float>;
-using Mat3d = Mat2<double>;
+using Mat3i = Mat3<int>;
+using Mat3f = Mat3<float>;
+using Mat3d = Mat3<double>;
 
 template <typename T>
 using Mat4 [[maybe_unused]] = Matrix<4, 4, T>;
-using Mat4i = Mat2<int>;
-using Mat4f = Mat2<float>;
-using Mat4d = Mat2<double>;
+using Mat4i = Mat4<int>;
+using Mat4f = Mat4<float>;
+using Mat4d = Mat4<double>;
 }
 }
