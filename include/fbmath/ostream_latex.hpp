@@ -15,7 +15,6 @@ constexpr struct {} latexFormat;
 struct LatexOStreamRef {
     std::ostream& os;
 };
-
 }}
 
 fb::math::LatexOStreamRef operator<<(std::ostream& os, decltype(fb::math::latexFormat)&)
@@ -41,22 +40,22 @@ fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math
 template <typename N>
 fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math::Vec3<N>& v) noexcept
 {
-    r.os << "\\begin{pmatrix}\n"
-         << '\t' << v.x << "\\\\ " << v.y << "\\\\ " << v.z
-         << "\n\\end{pmatrix}\n";
+    r << "\\begin{pmatrix}\n"
+      << '\t' << v.x << "\\\\ " << v.y << "\\\\ " << v.z
+      << "\n\\end{pmatrix}\n";
     return r;
 }
 
 template <int M, int N, typename T>
 fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math::Matrix<M, N, T>& m)
 {
-    r.os << "\\begin{pmatrix}\n";
+    r << "\\begin{pmatrix}\n";
     for (int i = 0; i < M; ++i) {
-        r.os << "\t";
+        r << "\t";
         for (int j = 0; j < N; ++j)
-            r.os << m[i, j] << (j != N - 1 ? " & " : "");
-        r.os << (i != M - 1 ? " \\\\\n" : "\n");
+            r << m[i, j] << (j != N - 1 ? " & " : "");
+        r << (i != M - 1 ? " \\\\\n" : "\n");
     }
-    r.os << "\\end{pmatrix}\n";
+    r << "\\end{pmatrix}\n";
     return r;
 }
