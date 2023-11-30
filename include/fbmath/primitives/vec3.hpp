@@ -168,7 +168,7 @@ noexcept
     return add<N, O, MorePreciseType<N, O>>(v,u);
 }
 
-template <Number N, Number O>
+template <typename N, typename O>
 constexpr Vec3<MorePreciseType<N, O>> operator-(const Vec3<N>& v,
     const Vec3<O>& u)
 noexcept
@@ -196,14 +196,14 @@ constexpr auto operator*(const S factor, const Vec3<N>& v) noexcept
     return mult<N, S, MorePreciseType<N, S>>(v, factor);
 }
 
-template <Number N, Number O>
+template <typename N, typename O>
     requires std::equality_comparable_with<N, O>
 constexpr bool operator==(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {
     return v.x == u.x && v.y == u.y;
 }
 
-template <Number N, Number O>
+template <typename N, typename O>
     requires std::equality_comparable_with<N, O>
 constexpr bool operator!=(const Vec3<N>& v, const Vec3<O>& u) noexcept
 {

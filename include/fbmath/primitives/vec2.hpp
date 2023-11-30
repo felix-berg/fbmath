@@ -32,7 +32,7 @@ struct Vec2 {
         : x { static_cast<N>(_x) },
           y { static_cast<N>(_y) } { };
 
-    template <Number O>
+    template <typename O>
     constexpr operator Vec2<O>() const noexcept
         requires MorePreciseThan<O, N>
     {
@@ -107,7 +107,8 @@ struct Vec2 {
         return *this / size();
     }
 
-    template <Number SizeType = double, std::floating_point AngleType = double>
+    template <std::floating_point SizeType = double,
+        std::floating_point AngleType = double>
     static constexpr Vec2 fromAngle(AngleType angle,
         SizeType sz = 1.0f) noexcept
     {
@@ -214,7 +215,7 @@ noexcept
      return add<N, O, MorePreciseType<N, O>>(v,u);
 }
 
-template <Number N, Number O>
+template <typename N, typename O>
  constexpr Vec2<MorePreciseType<N, O>> operator-(const Vec2<N>& v,
     const Vec2<O>& u)
 noexcept

@@ -5,7 +5,7 @@
 
 namespace fb{ namespace math {
 
-template <Number N>
+template <typename N>
 struct Plane {
     Vec3<N> normal;
     N d;

@@ -117,10 +117,9 @@ struct Matrix {
         return (*this)[0, 0];
     }
 
-    template <Number U>
+    template <typename U>
     constexpr Matrix& operator+=(
         const Matrix<M, N, U>& other) noexcept
-        requires Number<T>
     {
         for (int i = 0; i < M; ++i)
             for (int j = 0; j < N; ++j)
@@ -128,10 +127,9 @@ struct Matrix {
         return *this;
     }
 
-    template <Number U>
+    template <typename U>
     constexpr Matrix& operator-=(
         const Matrix<M, N, U>& other) noexcept
-        requires Number<T>
     {
         for (int i = 0; i < M; ++i)
             for (int j = 0; j < N; ++j)
@@ -139,18 +137,16 @@ struct Matrix {
         return *this;
     }
 
-    template <Number S>
+    template <typename S>
     constexpr Matrix& operator*=(S s) noexcept
-        requires Number<T>
     {
         for (T& elm: data)
             elm *= s;
         return *this;
     }
 
-    template <Number S>
+    template <typename S>
     constexpr Matrix& operator/=(S s) noexcept
-        requires Number<T>
     {
         for (T& elm: data)
             elm /= s;
@@ -158,7 +154,6 @@ struct Matrix {
     }
 
     constexpr Matrix operator+() const noexcept
-        requires Number<T>
     {
         Matrix result;
         for (int i = 0; i < data.size(); ++i)
@@ -166,7 +161,6 @@ struct Matrix {
     }
 
     constexpr Matrix operator-() const noexcept
-        requires Number<T>
     {
         Matrix result;
         for (int i = 0; i < data.size(); ++i)
@@ -214,7 +208,7 @@ struct Matrix {
     }
 };
 
-template <int M, int N, Number T, Number U>
+template <int M, int N, typename T, typename U>
 constexpr auto operator+(const Matrix<M, N, T>& m1, const Matrix<M, N, U>& m2)
 {
     using R = MorePreciseType<T, U>;
@@ -222,7 +216,7 @@ constexpr auto operator+(const Matrix<M, N, T>& m1, const Matrix<M, N, U>& m2)
     return (r += m2);
 }
 
-template <int M, int N, Number T, Number U>
+template <int M, int N, typename T, typename U>
 constexpr auto operator-(const Matrix<M, N, T>& m1, const Matrix<M, N, U>& m2)
 {
     using R = MorePreciseType<T, U>;
@@ -230,7 +224,7 @@ constexpr auto operator-(const Matrix<M, N, T>& m1, const Matrix<M, N, U>& m2)
     return (r -= m2);
 }
 
-template <int M, int N, Number T, Number S>
+template <int M, int N, typename T, typename S>
 constexpr auto operator*(const Matrix<M, N, T>& m1, S s)
 {
     using R = MorePreciseType<T, S>;
@@ -238,7 +232,7 @@ constexpr auto operator*(const Matrix<M, N, T>& m1, S s)
     return (r *= static_cast<R>(s));
 }
 
-template <int M, int N, Number T, Number S>
+template <int M, int N, typename T, typename S>
 constexpr auto operator/(const Matrix<M, N, T>& m1, S s)
 {
     using R = MorePreciseType<T, S>;
@@ -246,7 +240,7 @@ constexpr auto operator/(const Matrix<M, N, T>& m1, S s)
     return (r /= static_cast<R>(s));
 }
 
-template <int M, int N, Number T, Number S>
+template <int M, int N, typename T, typename S>
 constexpr auto operator*(S s, const Matrix<M, N, T>& m1)
 {
     return m1 * s;
@@ -276,12 +270,12 @@ constexpr void transposeInto(
             transposed[j, i] = matrix[i, j];
 }
 
-template <int M, int R, int N, Number T, Number U, Number S>
+template <int M, int R, int N, typename T, typename U, typename S>
 constexpr void multiplyInto(
     Matrix<M, N, T>& result,
     const Matrix<M, R, U>& m1,
     const Matrix<R, N, S>& m2
-) noexcept
+) noexcept requires std::convertible_to<T, S> && std::convertible_to<U, S>
 {
     assert(
         "The data of the result matrix and the must not overlap!" &&
@@ -304,9 +298,9 @@ constexpr void multiplyInto(
     }
 }
 
-template <int M, int R, int N, Number T, Number U>
-constexpr auto operator*(
-    const Matrix<M, R, T>& m1, const Matrix<R, N, U>& m2) noexcept
+template <int M, int R, int N, typename T, typename U>
+constexpr auto operator*(const Matrix<M, R, T>& m1,
+    const Matrix<R, N, U>& m2) noexcept
 {
     Matrix<M, N, MorePreciseType<T, U>> res;
     multiplyInto(res, m1, m2);

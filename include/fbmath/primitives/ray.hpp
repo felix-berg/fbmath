@@ -23,14 +23,14 @@ struct Ray {
     }
 };
 
-template <Number N>
+template <typename N>
 using Ray2 = Ray<Vec2<N>>;
 
 using Ray3i = Ray<V3i>;
 using Ray3f = Ray<V3f>;
 using Ray3d = Ray<V3d>;
 
-template <Number N>
+template <typename N>
 using Ray3 = Ray<Vec3<N>>;
 
 using Ray3i = Ray<V3i>;
