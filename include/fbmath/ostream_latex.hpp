@@ -16,28 +16,30 @@ struct LatexOStreamRef {
     std::ostream& os;
 };
 
-LatexOStreamRef operator<<(std::ostream& os, decltype(latexFormat)&)
+}}
+
+fb::math::LatexOStreamRef operator<<(std::ostream& os, decltype(fb::math::latexFormat)&)
 {
-    return LatexOStreamRef { os };
+    return fb::math::LatexOStreamRef { os };
 }
 
 template <typename T>
-LatexOStreamRef operator<<(LatexOStreamRef r, const T& t) noexcept
+fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const T& t) noexcept
 {
     return { r.os << t };
 }
 
 template <typename N>
-LatexOStreamRef operator<<(LatexOStreamRef r, const Vec2<N>& v) noexcept
+fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math::Vec2<N>& v) noexcept
 {
     r << "\\begin{pmatrix}\n"
-         << '\t' << v.x << "\\\\ " << v.y
-         << "\n\\end{pmatrix}\n";
+      << '\t' << v.x << "\\\\ " << v.y
+      << "\n\\end{pmatrix}\n";
     return r;
 }
 
 template <typename N>
-LatexOStreamRef operator<<(LatexOStreamRef r, const Vec3<N>& v) noexcept
+fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math::Vec3<N>& v) noexcept
 {
     r.os << "\\begin{pmatrix}\n"
          << '\t' << v.x << "\\\\ " << v.y << "\\\\ " << v.z
@@ -46,7 +48,7 @@ LatexOStreamRef operator<<(LatexOStreamRef r, const Vec3<N>& v) noexcept
 }
 
 template <int M, int N, typename T>
-LatexOStreamRef operator<<(LatexOStreamRef r, const Matrix<M, N, T>& m)
+fb::math::LatexOStreamRef operator<<(fb::math::LatexOStreamRef r, const fb::math::Matrix<M, N, T>& m)
 {
     r.os << "\\begin{pmatrix}\n";
     for (int i = 0; i < M; ++i) {
@@ -58,5 +60,3 @@ LatexOStreamRef operator<<(LatexOStreamRef r, const Matrix<M, N, T>& m)
     r.os << "\\end{pmatrix}\n";
     return r;
 }
-
-}}
