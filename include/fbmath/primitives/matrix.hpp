@@ -20,6 +20,9 @@ template <int M, int N, typename T>
 struct Matrix {
     std::array<T, M * N> data;
 
+    static constexpr int rows()    noexcept { return M; }
+    static constexpr int columns() noexcept { return N; }
+
     static_assert(M >= 0, "Number of rows must be positive");
     static_assert(N >= 0, "Number of columns must be positive");
 
