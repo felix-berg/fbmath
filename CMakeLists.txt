@@ -5,59 +5,41 @@ project(fbmath)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
 
-add_subdirectory(external/fbtt)
-
-include_directories(
-    include
-    external/fbtt/include)
-
-link_libraries(fbmath fbtt)
-
 add_library(fbmath INTERFACE)
+
+target_include_directories(fbmath
+        INTERFACE include)
 
 target_include_directories(fbmath
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
+set(fbmathtests
+        vec2test
+        ray2test
+        boundingboxtest
+        matrixtest
+        circletest
+        simdvec3buffertest
+        spheretest
+)
+
+add_subdirectory(external/fbtt)
 enable_testing()
+foreach (test IN LISTS fbmathtests)
 
-add_executable(vec2test tests/vec2test.cpp)
-add_test(
-    NAME "2D Vector"
-    COMMAND vec2test
-)
+    add_executable(${test} tests/${test}.cpp)
+    add_test(
+            NAME "${test}"
+            COMMAND ${test}
+    )
 
-add_executable(raytest tests/ray2test.cpp)
-add_test(
-        NAME "2D Ray"
-        COMMAND raytest
-)
+    target_include_directories(${test}
+            PRIVATE include
+            PRIVATE external/fbtt/include)
 
-add_executable(circletest tests/circletest.cpp)
-add_test(
-        NAME "Circle"
-        COMMAND circletest
-)
+    target_link_libraries(${test}
+            PRIVATE fbtt
+            PRIVATE fbmath)
 
-add_executable(boundingboxtest tests/boundingboxtest.cpp)
-add_test(
-        NAME "Bounding Box"
-        COMMAND boundingboxtest
-)
-add_executable(matrixtest tests/matrixtest.cpp)
-add_test(
-        NAME "Matrix"
-        COMMAND matrixtest
-)
-
-add_executable(spheretest tests/spheretest.cpp)
-add_test(
-        NAME "Sphere"
-        COMMAND spheretest
-)
-
-add_executable(simdvec3buffertest tests/simdvec3buffertest.cpp)
-add_test(
-        NAME "SIMD Vec3 Buffer"
-        COMMAND simdvec3buffertest
-)
+endforeach ()
