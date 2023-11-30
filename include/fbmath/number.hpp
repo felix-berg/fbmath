@@ -9,12 +9,6 @@ template <typename N>
 concept Number = (std::integral<N> || std::floating_point<N>);
 
 namespace impl {
-template <typename T, typename U>
-consteval auto getMorePreciseType()
-{
-    static_assert(std::same_as<T, void>, "Error! Not number types");
-};
-
 template <std::floating_point N, std::integral O>
 consteval auto getMorePreciseType() noexcept
 {
@@ -38,6 +32,20 @@ consteval auto getMorePreciseType() noexcept
         return O();
 }
 
+template <typename T, typename U>
+requires (!std::same_as<T, U> && !Number<T> && !Number<U>)
+consteval auto getMorePreciseType()
+{
+    static_assert(std::same_as<T, void>, "More precise type couldn't be determined");
+};
+
+template <typename T, typename U>
+requires (std::same_as<T, U> && !Number<T> && !Number<U>)
+consteval auto getMorePreciseType()
+{
+    return T();
+}
+
 template <Number N, Number ... Ns>
 consteval auto getMorePrecisetype() noexcept
 {
@@ -51,10 +59,6 @@ using MorePreciseType = decltype(impl::getMorePreciseType<Ns...>());
 template <typename N, typename C>
 concept MorePreciseThan = Number<N> && Number<C>
     && std::same_as<MorePreciseType<N, C>, N>;
-
-template <typename From, typename To>
-concept NonNarrowingConvertibleTo = Number<From> && Number<To>
-    && MorePreciseThan<To, From>;
 
 static_assert(
     Number<char> &&

@@ -6,7 +6,7 @@
 #include "vec3.hpp"
 
 namespace fb { namespace math {
-template <Number N>
+template <typename N>
 struct Sphere {
     Vec3<N> c;
     N r;

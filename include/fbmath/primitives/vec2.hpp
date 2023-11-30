@@ -11,10 +11,11 @@
 
 namespace fb {
 namespace math {
-template <Number N, std::floating_point SizeType = N>
+template <typename N, std::floating_point SizeType = N>
+    requires std::convertible_to<SizeType, N>
 constexpr SizeType size(const Vec2<N>& v) noexcept;
 
-template <Number N>
+template <typename N>
 struct Vec2 {
     using Type = N;
     N x, y;
@@ -25,14 +26,15 @@ struct Vec2 {
     constexpr Vec2() noexcept
         :x { }, y { } { };
 
-    template <NonNarrowingConvertibleTo<N> O>
+    template <typename O>
+        requires MorePreciseThan<N, O>
     constexpr Vec2(const O _x, const O _y) noexcept
         : x { static_cast<N>(_x) },
           y { static_cast<N>(_y) } { };
 
     template <Number O>
     constexpr operator Vec2<O>() const noexcept
-        requires NonNarrowingConvertibleTo<N, O>
+        requires MorePreciseThan<O, N>
     {
         return Vec2<O>(static_cast<O>(x), static_cast<O>(y));
     }
@@ -114,7 +116,8 @@ struct Vec2 {
         return { x, y };
     }
 
-    template <Number O>
+    template <typename O>
+        requires std::convertible_to<N, O>
     static constexpr Vec2 from(const Vec2<O>& v) noexcept
     {
         return {
@@ -123,7 +126,7 @@ struct Vec2 {
         };
     }
 
-    template <Number O>
+    template <std::convertible_to<N> O>
     static constexpr Vec2 all(O v) noexcept
     {
         return { static_cast<N>(v), static_cast<N>(v) };
@@ -134,26 +137,26 @@ struct Vec2 {
     constexpr friend bool operator!=(const Vec2&,
         const Vec2&) noexcept = default;
 
-    template <Number O = N>
+    template <typename O = N>
     constexpr Vec2& operator+=(const Vec2<O>& v) noexcept
     {
         return (*this = *this + v);
     }
 
-    template <Number O = N>
+    template <typename O = N>
     constexpr Vec2& operator-=(const Vec2<O>& v) noexcept
     {
         return (*this = *this - v);
     }
 
-    template <Number FactType>
-    constexpr Vec2& operator*=(const FactType factor) noexcept
+    template <typename S>
+    constexpr Vec2& operator*=(const S factor) noexcept
     {
         return (*this = *this * factor);
     }
 
-    template <Number FactType>
-    constexpr Vec2& operator/=(const FactType factor) noexcept
+    template <typename S>
+    constexpr Vec2& operator/=(const S factor) noexcept
     {
         return (*this = *this / factor);
     }
@@ -167,16 +170,48 @@ struct Vec2 {
     }
 };
 
-template <Number N, Number O>
+template <typename N, typename O, typename R>
+constexpr Vec2<R> add(const Vec2<N>& v, const Vec2<O>& u) noexcept
+{
+    return {
+        static_cast<R>(v.x) + static_cast<R>(u.x),
+        static_cast<R>(v.y) + static_cast<R>(u.y)
+    };
+}
+
+template <typename N, typename O, typename R>
+constexpr Vec2<R> sub(const Vec2<N>& v, const Vec2<O>& u) noexcept
+{
+    return {
+        static_cast<R>(v.x) - static_cast<R>(u.x),
+        static_cast<R>(v.y) - static_cast<R>(u.y)
+    };
+}
+
+template <typename N, typename S, typename R>
+constexpr Vec2<R> mult(const Vec2<N>& v, const S factor) noexcept
+{
+    return {
+        static_cast<R>(v.x) * static_cast<R>(factor),
+        static_cast<R>(v.y) * static_cast<R>(factor)
+    };
+}
+
+template <typename N, typename S, typename R>
+constexpr Vec2<R> div(const Vec2<N>& v, const S factor) noexcept
+{
+    return {
+        static_cast<R>(v.x) / static_cast<R>(factor),
+        static_cast<R>(v.y) / static_cast<R>(factor)
+    };
+}
+
+template <typename N, typename O>
  constexpr Vec2<MorePreciseType<N, O>> operator+(const Vec2<N>& v,
     const Vec2<O>& u)
 noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return {
-        static_cast<T>(v.x) + static_cast<T>(u.x),
-        static_cast<T>(v.y) + static_cast<T>(u.y)
-    };
+     return add<N, O, MorePreciseType<N, O>>(v,u);
 }
 
 template <Number N, Number O>
@@ -184,77 +219,66 @@ template <Number N, Number O>
     const Vec2<O>& u)
 noexcept
 {
-    using T = MorePreciseType<N, O>;
-    return {
-        static_cast<T>(v.x) - static_cast<T>(u.x),
-        static_cast<T>(v.y) - static_cast<T>(u.y)
-    };
+     return sub<N, O, MorePreciseType<N, O>>(v, u);
 }
 
-template <Number N, Number FacType>
- constexpr Vec2<MorePreciseType<N, FacType>> operator*(const Vec2<N>& v,
-    const FacType
-    factor) noexcept
+template <typename N, typename S>
+ constexpr Vec2<MorePreciseType<N, S>> operator*(const Vec2<N>& v,
+    const S factor) noexcept
 {
-    using T = MorePreciseType<N, FacType>;
-    return {
-        static_cast<T>(v.x) * static_cast<T>(factor),
-        static_cast<T>(v.y) * static_cast<T>(factor)
-    };
+    return mult<N, S, MorePreciseType<N, S>>(v, factor);
 }
 
-template <Number N, Number FacType>
- constexpr Vec2<MorePreciseType<N, FacType>> operator/(const Vec2<N>& v,
-    const FacType
-    factor) noexcept
+template <typename N, typename S>
+ constexpr Vec2<MorePreciseType<N, S>> operator/(const Vec2<N>& v,
+    const S factor) noexcept
 {
-    using T = MorePreciseType<N, FacType>;
-    return {
-        static_cast<T>(v.x) / static_cast<T>(factor),
-        static_cast<T>(v.y) / static_cast<T>(factor)
-    };
+     return div<N, S, MorePreciseType<N,S>>(v, factor);
 }
 
-template <Number N, Number FacType>
- constexpr auto operator*(const FacType factor,
-    const Vec2<N>& v) noexcept { return v * factor; }
+template <typename N, typename S>
+ constexpr auto operator*(const S factor, const Vec2<N>& v) noexcept
+{
+    return mult<N, S, MorePreciseType<N, S>>(v, factor);
+}
 
-template <Number N, Number O>
+template <typename N, typename O>
 requires std::equality_comparable_with<N, O>
 constexpr bool operator==(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
     return v.x == u.x && v.y == u.y;
 }
 
-template <Number N, Number O>
+template <typename N, typename O>
 requires std::equality_comparable_with<N, O>
 constexpr bool operator!=(const Vec2<N>& v, const Vec2<O>& u) noexcept
 {
     return v.x != u.x || v.y != u.y;
 }
 
-template <Number N, std::floating_point SizeType>
+template <typename N, std::floating_point SizeType>
+    requires std::convertible_to<SizeType, N>
 constexpr SizeType size(const Vec2<N>& v) noexcept
 {
     return std::sqrt(Vec2<SizeType>::from(v).sizeSquared());
 }
 
-template <Number N>
+template <typename N>
 constexpr N dotProduct(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     return v.x * u.x + v.y * u.y;
 }
 
-template <std::floating_point AngleType = double, Number N>
-/// \tparam AngleType Type of resulting angle
+template <std::floating_point S = double, std::convertible_to<S> N>
+/// \tparam S Type of resulting angle
 /// \return smallest angle between vectors v, u in radians
-constexpr AngleType angleBetween(const Vec2<N>& v, const Vec2<N>& u) noexcept
+constexpr S angleBetween(const Vec2<N>& v, const Vec2<N>& u) noexcept
 {
     /* cos^-1((v · u)/(|v| * |u|)) */
+    S over = dotProduct(v, u);
 
-    AngleType over = dotProduct(v, u);
     /* √v * √u = √(v * u) */
-    AngleType under = std::sqrt(static_cast<AngleType>(
+    S under = std::sqrt(static_cast<S>(
         v.sizeSquared() * u.sizeSquared()));
 
     return std::acos(over / under);
@@ -270,6 +294,5 @@ using V2i64 [[maybe_unused]] = Vec2<int64_t>;
 using V2u64 [[maybe_unused]] = Vec2<uint64_t>;
 using V2f   [[maybe_unused]] = Vec2<float>;
 using V2d   [[maybe_unused]] = Vec2<double>;
-
 }
 }

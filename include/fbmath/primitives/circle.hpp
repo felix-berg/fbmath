@@ -5,7 +5,7 @@
 
 namespace fb {
 namespace math {
-template <Number N>
+template <typename N>
 struct Circle {
     Vec2<N> c;
     N r;

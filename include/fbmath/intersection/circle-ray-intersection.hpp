@@ -13,7 +13,7 @@ namespace math {
 template <Number N>
 using CircleRayIntersection = std::optional<std::pair<Vec2<N>, Vec2<N>>>;
 
-template <Number C, Number R,
+template <typename C, typename R,
     std::floating_point ResultType = MorePreciseType<C, R>>
 constexpr CircleRayIntersection<ResultType> intersection(
     const Circle<C>& circle, const Ray<Vec2<R>>& ray)

@@ -36,4 +36,5 @@ int main() {
 
     ct.run();
     std::cout << ct;
+    return getErrorCode(ct.getResults());
 }

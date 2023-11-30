@@ -39,9 +39,9 @@ struct Matrix {
         }
     }
 
-    template <Number U>
+    template <typename U>
     constexpr Matrix(const Matrix<M, N, U>& other)
-        requires Number<T> && NonNarrowingConvertibleTo<T, U>
+        requires MorePreciseThan<T, U>
     {
         for (size_t i = 0; i < other.data.size(); ++i) {
             data[i] = static_cast<T>(other.data[i]);
@@ -60,13 +60,13 @@ struct Matrix {
     }
 
     constexpr operator Vec2<T>() const noexcept
-        requires Number<T> && (M == 2 && N == 1)
+        requires (M == 2 && N == 1)
     {
         return std::bit_cast<Vec2<T>>(*this);
     }
 
     constexpr operator Vec3<T>() const noexcept
-        requires Number<T> && (M == 3 && N == 1)
+        requires (M == 3 && N == 1)
     {
         return std::bit_cast<Vec3<T>>(*this);
     }
@@ -103,18 +103,16 @@ struct Matrix {
         return data[i];
     }
 
-    template <Number S = T>
+    template <typename S = T>
     constexpr S determinant() const noexcept
-        requires Number<T>
-        && (M == 2 && N == 2)
+        requires (M == 2 && N == 2)
     {
         return (*this)[0, 0] * (*this)[1, 1] - (*this)[1, 0] * (*this)[0, 1];
     }
 
-    template <Number S = T>
+    template <typename S = T>
     constexpr S determinant() const noexcept
-        requires Number<T>
-        && (M == 1 && N == 1)
+        requires (M == 1 && N == 1)
     {
         return (*this)[0, 0];
     }

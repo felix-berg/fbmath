@@ -6,7 +6,7 @@
 
 namespace fb { namespace math {
 
-template <Number P, Number R, std::floating_point T = MorePreciseType<P, R>>
+template <typename P, typename R, std::floating_point T = MorePreciseType<P, R>>
 std::optional<float> planeRayIntersectionParam(
     const Plane<P>& plane, const Ray<Vec3<R>>& ray) noexcept
 {
@@ -18,7 +18,7 @@ std::optional<float> planeRayIntersectionParam(
     return -d / (dotProduct(n, od));
 }
 
-template <Number P, Number R, std::floating_point T = MorePreciseType<P, R>>
+template <typename P, typename R, std::floating_point T = MorePreciseType<P, R>>
 std::optional<Vec3<T>> intersection(
     const Plane<P>& plane,
     const Ray<Vec3<R>>& ray

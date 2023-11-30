@@ -25,13 +25,9 @@ int main(int argc, char** argv)
 
             static_assert(MorePreciseThan<long, int>);
             static_assert(!MorePreciseThan<int, long>);
-            static_assert(NonNarrowingConvertibleTo<int, long>);
-            static_assert(!NonNarrowingConvertibleTo<long, int>);
 
             static_assert(MorePreciseThan<float, int>);
-            static_assert(NonNarrowingConvertibleTo<int, float>);
             static_assert(!MorePreciseThan<int, float>);
-            static_assert(!NonNarrowingConvertibleTo<double, long>);
 
             long x = std::numeric_limits<long>::max(), y = 50;
             Vec2<float> vf = { x, y }; /* integral -> fp allowed */

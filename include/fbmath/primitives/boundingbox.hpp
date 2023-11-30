@@ -9,7 +9,7 @@ namespace fb {
 namespace math {
 /// \brief Axis-aligned bounding box
 ///        top-left inclusive, bottom right exclusive
-template <Number N>
+template <typename N>
 struct BoundingBox {
     Vec2<N> tl; /* top left */
     Vec2<N> br; /* bottom right */
@@ -23,7 +23,7 @@ struct BoundingBox {
     constexpr BoundingBox() : BoundingBox({}, {}) { };
     constexpr BoundingBox(N x1, N y1, N x2, N y2) : BoundingBox({x1, y1}, {x2, y2}) { };
 
-    template <Number O = N>
+    template <typename O = N>
     constexpr bool contains(const Vec2<O>& v) const noexcept
     {
         return inRange(v.x, tl.x, br.x) && inRange(v.y, tl.y, br.y);

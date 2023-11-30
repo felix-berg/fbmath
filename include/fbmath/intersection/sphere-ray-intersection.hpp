@@ -10,7 +10,7 @@ template <typename T>
 using SphereRayIntersection =
     std::optional<std::pair<Vec3<T>, Vec3<T>>>;
 
-template <Number S, Number R, std::floating_point T = MorePreciseType<S, R>>
+template <typename S, typename R, std::floating_point T = MorePreciseType<S, R>>
 constexpr std::optional<std::pair<T, T>> sphereRayIntersectionParams(
     const Sphere<S>& sphere,
     const Ray<Vec3<R>>& ray
@@ -42,7 +42,7 @@ constexpr std::optional<std::pair<T, T>> sphereRayIntersectionParams(
     }
 }
 
-template <Number S, Number R, std::floating_point ResultType = MorePreciseType<S, R>>
+template <typename S, typename R, std::floating_point ResultType = MorePreciseType<S, R>>
 constexpr SphereRayIntersection<ResultType> intersection(
     const Sphere<S>& sphere,
     const Ray<Vec3<R>>& ray
@@ -52,8 +52,8 @@ constexpr SphereRayIntersection<ResultType> intersection(
         S, R, ResultType>(sphere, ray);
     if (!param) return std::nullopt;
 
-    Vec3<ResultType> o = static_cast<Vec3<ResultType>>(ray.org);
-    Vec3<ResultType> d = static_cast<Vec3<ResultType>>(ray.dir);
+    Vec3<ResultType> o = Vec3<ResultType>::from(ray.org);
+    Vec3<ResultType> d = Vec3<ResultType>::from(ray.dir);
     return std::make_pair(
           o + d * param->first,
           o + d * param->second
