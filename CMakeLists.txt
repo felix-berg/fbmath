@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.24)
 project(fbmath)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Werror -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Werror")
 
 add_library(fbmath INTERFACE)
 
@@ -22,6 +23,7 @@ set(fbmathtests
         circletest
         simdvec3buffertest
         spheretest
+        definitenesstest
 )
 
 add_subdirectory(external/fbtt)

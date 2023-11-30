@@ -196,14 +196,6 @@ int main()
         assertEquals(m.transposed(), mt);
     });
 
-    mt.addTest("det", [] {
-        Matrix<2, 2, int> m {
-            { 1, 2 },
-            { 3, 4 }
-        };
-        assertEquals(m.determinant(), -2);
-    });
-
     mt.addTest("Conversion to vec2, vec3", [] {
         Matrix<2, 1, float> m1 {
             { 3.1423f },
@@ -226,6 +218,85 @@ int main()
             313
         });
 
+    });
+
+    mt.addTest("Diagonal", [] {
+        assertTrue(Matrix<3, 3, int> {
+            { 11, 0, 0 },
+            { 0, -2, 0 },
+            { 0, 0, 5 },
+        }.diagonal());
+
+        assertFalse(Matrix<3, 3, int> {
+            { 11, 0, 1 },
+            { 0, -2, 0 },
+            { 0, 0, 5 },
+        }.diagonal());
+
+        assertFalse(Matrix<3, 3, int> {
+            { 11, 0, 1 },
+            { 0, -2, 0 },
+            { 6, 1, 5 },
+        }.diagonal());
+
+        assertFalse(Matrix<2, 4, int> {
+            { 1, 2, 3, 4 },
+            { 5, 6, 7, 8 }
+        }.diagonal());
+
+        assertFalse(Matrix<4, 2, int> {
+            { 1, 2, },
+            { 3, 4, },
+            { 5, 6 },
+            { 7, 8 }
+        }.diagonal());
+
+        assertTrue(Matrix<1, 1, float> {
+            { static_cast<float>(rand()) + 1.0f }
+        }.diagonal());
+
+        assertTrue(Matrix<1, 1, int>::all(0).diagonal());
+        assertTrue(Matrix<2, 2, int>::all(0).diagonal());
+        assertTrue(Matrix<3, 3, int>::all(0).diagonal());
+        assertTrue(Matrix<4, 4, int>::all(0).diagonal());
+        assertTrue(Matrix<5, 5, int>::all(0).diagonal());
+    });
+
+    mt.addTest("Symmetric matrices", [] {
+
+        assertFalse(Matrix<3, 3, int> {
+            { 11, 0, 1 },
+            { 0, -2, 0 },
+            { 0, 0, 5 },
+        }.symmetric());
+
+        assertTrue(Matrix<3, 3, int> {
+            { 11, 0, 1 },
+            { 0, -2, 0 },
+            { 1, 0, 5 },
+        }.symmetric());
+
+        assertTrue(Mat2d {
+            { 1., 4. },
+            { 4., -8. }
+        }.symmetric());
+
+        Matrix<32, 32, int> m;
+        for (int i = 0; i < 32; ++i) {
+            for (int j = 0; j < 32; ++j) {
+                int x = rand();
+                m[i, j] = x;
+                m[j, i] = x;
+            }
+        }
+
+        assertTrue(m.symmetric());
+
+        assertTrue(Matrix<1, 1, int>::all(0).symmetric());
+        assertTrue(Matrix<2, 2, int>::all(0).symmetric());
+        assertTrue(Matrix<3, 3, int>::all(0).symmetric());
+        assertTrue(Matrix<4, 4, int>::all(0).symmetric());
+        assertTrue(Matrix<5, 5, int>::all(0).symmetric());
     });
 
     mt.run();

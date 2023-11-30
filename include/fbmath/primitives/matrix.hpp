@@ -83,6 +83,49 @@ struct Matrix {
         return t;
     }
 
+    constexpr bool symmetric() const noexcept
+    {
+        if constexpr (M != N)
+            return false;
+        else {
+            for (int i = 0; i < N; ++i)
+                for (int j = i + 1; j < N; ++j)
+                    if ((*this)[i, j] != (*this)[j, i])
+                        return false;
+            return true;
+        }
+    }
+
+    constexpr bool diagonal() const noexcept
+        requires (!std::floating_point<T>)
+    {
+        if constexpr (M != N)
+            return false;
+        else {
+            for (int i = 0; i < N; ++i)
+                for (int j = 0; j < N; ++j)
+                    if (i != j && (*this)[i, j] != T(0))
+                        return false;
+            return true;
+        }
+    }
+
+    constexpr bool diagonal(T delta = 0.05f) const noexcept
+        requires std::floating_point<T>
+    {
+        if constexpr (M != N)
+            return false;
+        else {
+            for (int i = 0; i < N; ++i)
+                for (int j = 0; j < N; ++j)
+                    if (i != j &&
+                        (*this)[i, j] < T(0) - delta &&
+                        (*this)[i, j] > T(0) + delta)
+                        return false;
+            return true;
+        }
+    }
+
     constexpr T& operator[](int i, int j) noexcept
     {
         return data[i * N + j];
@@ -104,20 +147,6 @@ struct Matrix {
         || N == 1)
     {
         return data[i];
-    }
-
-    template <typename S = T>
-    constexpr S determinant() const noexcept
-        requires (M == 2 && N == 2)
-    {
-        return (*this)[0, 0] * (*this)[1, 1] - (*this)[1, 0] * (*this)[0, 1];
-    }
-
-    template <typename S = T>
-    constexpr S determinant() const noexcept
-        requires (M == 1 && N == 1)
-    {
-        return (*this)[0, 0];
     }
 
     template <typename U>

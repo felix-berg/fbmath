@@ -5,6 +5,7 @@
 #include <iostream>
 #include <limits>
 #include <fbmath/ostream_interop.hpp>
+#include "fbmath/ostream_latex.hpp"
 
 
 int main(int argc, char** argv)

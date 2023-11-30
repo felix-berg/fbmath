@@ -9,6 +9,8 @@
 #include "fbmath/intersection/circle-ray-intersection.hpp"
 #include "fbmath/primitives/sphere.hpp"
 #include "fbmath/intersection/sphere-ray-intersection.hpp"
-#include <fbmath/ostream_interop.hpp>
-#include <fbmath/trigonometry.hpp>
-#include <fbmath/valueutil.hpp>
+#include "fbmath/ostream_interop.hpp"
+#include "fbmath/ostream_latex.hpp"
+#include "fbmath/trigonometry.hpp"
+#include "fbmath/valueutil.hpp"
+#include "fbmath/algorithm/definiteness.hpp"
