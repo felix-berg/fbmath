@@ -46,14 +46,14 @@ consteval auto getMorePreciseType()
     return T();
 }
 
-template <Number N, Number ... Ns>
+template <typename N, typename ... Ns>
 consteval auto getMorePrecisetype() noexcept
 {
     return getMorePreciseType<N, decltype(getMorePreciseType<Ns...>())>;
 }
 }
 
-template <Number ... Ns>
+template <typename ... Ns>
 using MorePreciseType = decltype(impl::getMorePreciseType<Ns...>());
 
 template <typename N, typename C>
