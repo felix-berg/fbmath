@@ -140,6 +140,14 @@ int main(int argc, char** argv)
         }
     );
 
+    vt.addTest("latex formatting", [] {
+        V2d v { 1.5, 1.4 };
+
+        std::stringstream str;
+        str << latexFormat << v;
+        assertEquals(str.str(), std::string{"\\begin{pmatrix}\n\t1.5\\\\ 1.4\n\\end{pmatrix}\n"});
+    });
+
     vt.run();
     std::cout << vt;
 

@@ -21,21 +21,27 @@ LatexOStreamRef operator<<(std::ostream& os, decltype(latexFormat)&)
     return LatexOStreamRef { os };
 }
 
+template <typename T>
+LatexOStreamRef operator<<(LatexOStreamRef r, const T& t) noexcept
+{
+    return { r.os << t };
+}
+
 template <typename N>
 LatexOStreamRef operator<<(LatexOStreamRef r, const Vec2<N>& v) noexcept
 {
-    r.os << "\begin{pmatrix} \n"
-         << v.x << "\\ " << v.y
-         << "\n\\end{pmatrix}";
+    r << "\\begin{pmatrix}\n"
+         << '\t' << v.x << "\\\\ " << v.y
+         << "\n\\end{pmatrix}\n";
     return r;
 }
 
 template <typename N>
 LatexOStreamRef operator<<(LatexOStreamRef r, const Vec3<N>& v) noexcept
 {
-    r.os << "\begin{pmatrix} \n"
-         << v.x << "\\ " << v.y << "\\ " << v.z
-         << "\n\\end{pmatrix}";
+    r.os << "\\begin{pmatrix}\n"
+         << '\t' << v.x << "\\\\ " << v.y << "\\\\ " << v.z
+         << "\n\\end{pmatrix}\n";
     return r;
 }
 
