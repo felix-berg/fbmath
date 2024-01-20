@@ -61,7 +61,7 @@ void diagonalizeAndPrintSteps(Matrix<N, N, T>& m)
         std::string bstr = "B_{" + std::to_string(stringIndex) + "}";
         std::cout << "Multiplying with $" + bstr + "$\n"
                   << latexFormat << b;
-        displayStr = bstr + "^\\top" + displayStr + bstr;
+        displayStr = bstr + "^\\top " + displayStr + bstr;
         std::cout << "Calculating " << displayStr << "$ = \n"
                   << latexFormat << m;
         stringIndex++;
