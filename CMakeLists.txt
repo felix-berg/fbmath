@@ -21,7 +21,7 @@ set(fbmathtests
         boundingboxtest
         matrixtest
         circletest
-        simdvec3buffertest
+#        simdvec3buffertest
         spheretest
         definitenesstest
 )

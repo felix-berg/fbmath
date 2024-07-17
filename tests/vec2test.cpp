@@ -130,13 +130,13 @@ int main(int argc, char** argv)
     vt.addTest("Setting angles",
         []() {
             V2d v { 1.0, 1.0 };
-            assertApprox(degrees(v.angle()), 45.0);
+            assertApprox(degrees(v.angle()), 45.0, "1");
 
             v.setAngle(radians(65.0));
-            assertApprox(degrees(v.angle()), 65.0);
+            assertApprox(degrees(v.angle()), 65.0, "2");
 
             v.setAngle(radians(140.0));
-            assertApprox(degrees(v.angle()), 140.0);
+            assertApprox(degrees(v.angle()), 140.0, "3");
         }
     );
 

@@ -54,34 +54,25 @@ struct Vec2 {
     constexpr AngleType angle() const noexcept
         requires std::floating_point<N>
     {
-        /* a = cos(x / sz) = cos(x^2 / sz^2) */
+        /* a = cos(x / sz) */
         AngleType angle = std::acos(
             static_cast<AngleType>(x) / size<AngleType>(*this));
 
         bool pX = x >= N{0}; /* x positive? */
         bool pY = y >= N{0}; /* y positive? */
 
-        if (pX && pY) return angle;                 /* 1st quadrant */
-        else if (!pX && pY) return pi<AngleType> - angle; /* 2nd quadrant */
-        else if (!pX) return pi<AngleType> + angle;        /* 3rd quadrant */
-        else return twoPi<AngleType> - angle;              /* 4th quadrant */
+        if (pX && pY)       return angle;                 /* 1st quadrant */
+        else if (!pX && pY) return angle;                   /* 2nd quadrant */
+        else if (!pX)       return pi<AngleType> + angle;        /* 3rd quadrant */
+        else                return twoPi<AngleType> - angle;              /* 4th quadrant */
     }
 
     template <std::floating_point AngleType = double>
     constexpr void setAngle(AngleType angle) noexcept
     {
-        using A = AngleType;
-        A ca = std::acos(angle);
-        A sa = std::asin(angle);
-
-        bool positiveX = angle <= quarterPi<A> || angle >= pi<A> * A(0.75);
-        bool positiveY = angle <= pi<A>;
-
-        int xSign = positiveX * 2 - 1;
-        int ySign = positiveY * 2 - 1;
-
-        x = static_cast<N>(ca * xSign);
-        y = static_cast<N>(sa * ySign);
+        double sz = size<double>(*this);
+        x = static_cast<N>(std::cos(angle) * sz);
+        y = static_cast<N>(std::sin(angle) * sz);
     }
 
     template <std::floating_point SizeType = double>
