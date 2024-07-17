@@ -19,6 +19,8 @@ void diagonalizeAndPrintSteps(Matrix<N, N, T>& m)
 
     int i = 0;
     int stringIndex = 1;
+    std::string displayStr = "A";
+
     while (i < N - 1) {
         b = id;
 
@@ -59,7 +61,8 @@ void diagonalizeAndPrintSteps(Matrix<N, N, T>& m)
         std::string bstr = "B_{" + std::to_string(stringIndex) + "}";
         std::cout << "Multiplying with $" + bstr + "$\n"
                   << latexFormat << b;
-        std::cout << "Calculating ${" + bstr + "}^\\top A" + bstr + "$ is \n"
+        displayStr = bstr + "^\\top " + displayStr + bstr;
+        std::cout << "Calculating " << displayStr << "$ = \n"
                   << latexFormat << m;
         stringIndex++;
     }
