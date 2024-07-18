@@ -80,7 +80,7 @@ struct Vec2 {
     {
         SizeType xnum = static_cast<SizeType>(x * sz);
         SizeType ynum = static_cast<SizeType>(y * sz);
-        SizeType oldsz = size<SizeType>();
+        SizeType oldsz = size<SizeType>(*this);
 
         x = static_cast<N>(xnum / oldsz);
         y = static_cast<N>(ynum / oldsz);
